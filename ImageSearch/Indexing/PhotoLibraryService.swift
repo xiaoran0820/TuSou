@@ -77,8 +77,13 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, @unchec
             return nil
         }
         if let image = await request(asset, maxPixel: maxPixel, highQuality: highQuality) { return image }
-        return highQuality ? await request(asset, maxPixel: maxPixel, highQuality: false) : nil
+        // 高质量版本拿不到（原图只在 iCloud、出错、超时）时退回本机预览图；任务已取消就不再发请求
+        guard highQuality, !Task.isCancelled else { return nil }
+        return await request(asset, maxPixel: maxPixel, highQuality: false)
     }
+
+    /// 单次请求最长等多久：本机取图远快于这个值，超过说明 PhotoKit 没有给出最终回调
+    static let requestTimeout: TimeInterval = 15
 
     private static func request(_ asset: PHAsset, maxPixel: CGFloat, highQuality: Bool) async -> UIImage? {
         let options = PHImageRequestOptions()
@@ -88,15 +93,23 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, @unchec
         options.isSynchronous = false
         options.version = .current
         let target = CGSize(width: maxPixel, height: maxPixel)
+        let state = ImageRequestState(highQuality: highQuality)
 
-        return await withCheckedContinuation { (cont: CheckedContinuation<UIImage?, Never>) in
-            let once = ResumeOnce(cont)
-            PHImageManager.default().requestImage(for: asset, targetSize: target, contentMode: .aspectFit,
-                                                  options: options) { image, info in
-                let degraded = (info?[PHImageResultIsDegradedKey] as? Bool) ?? false
-                if degraded && highQuality { return }   // 等高质量版本
-                once.resume(image)
+        return await withTaskCancellationHandler {
+            await withCheckedContinuation { (cont: CheckedContinuation<UIImage?, Never>) in
+                guard state.begin(cont) else { return }   // 发请求前任务就被取消了
+                let id = PHImageManager.default().requestImage(for: asset, targetSize: target, contentMode: .aspectFit,
+                                                               options: options) { image, info in
+                    state.handle(image: image, info: info)
+                }
+                state.setRequestID(id)
+                // 兜底：最终回调一直不来，就取消请求、结束等待（不会永远卡住索引）
+                DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + requestTimeout) {
+                    state.cancel()
+                }
             }
+        } onCancel: {
+            state.cancel()   // Swift 任务被取消：同时取消 PhotoKit 请求
         }
     }
 
@@ -106,14 +119,80 @@ final class PhotoLibraryService: NSObject, PHPhotoLibraryChangeObserver, @unchec
     }
 }
 
-/// 保证 continuation 只 resume 一次（PhotoKit 回调可能多次触发）
-final class ResumeOnce<T>: @unchecked Sendable {
-    private var cont: CheckedContinuation<T, Never>?
+/// 一次 PhotoKit 取图请求的状态。等待只会结束一次，结束的原因可能是：
+/// 最终回调（有图或无图）、取消/出错的回调、Swift 任务取消、超时。
+/// 高质量请求中途送来的降级预览不算结束：PhotoKit 之后还会给最终回调，若一直不给，由超时兜底。
+final class ImageRequestState: @unchecked Sendable {
+    enum CallbackKind: Equatable {
+        case keepWaiting   // 高质量请求的降级预览
+        case finished      // 最终结果（图可能为空，如原图只在 iCloud）
+        case failed        // 请求被取消或出错
+    }
+
     private let lock = NSLock()
-    init(_ c: CheckedContinuation<T, Never>) { cont = c }
-    func resume(_ value: T) {
-        lock.lock(); let c = cont; cont = nil; lock.unlock()
-        c?.resume(returning: value)
+    private let highQuality: Bool
+    private let cancelRequest: @Sendable (PHImageRequestID) -> Void
+    private var continuation: CheckedContinuation<UIImage?, Never>?
+    private var requestID: PHImageRequestID?
+    private var finished = false
+
+    init(highQuality: Bool,
+         cancelRequest: @escaping @Sendable (PHImageRequestID) -> Void = { PHImageManager.default().cancelImageRequest($0) }) {
+        self.highQuality = highQuality
+        self.cancelRequest = cancelRequest
+    }
+
+    static func classify(info: [AnyHashable: Any]?, highQuality: Bool) -> CallbackKind {
+        if (info?[PHImageCancelledKey] as? Bool) == true || info?[PHImageErrorKey] != nil { return .failed }
+        let degraded = (info?[PHImageResultIsDegradedKey] as? Bool) ?? false
+        return degraded && highQuality ? .keepWaiting : .finished
+    }
+
+    /// 开始等待。若在这之前已经被取消，立即以 nil 结束并返回 false（不必再发请求）
+    func begin(_ c: CheckedContinuation<UIImage?, Never>) -> Bool {
+        lock.lock()
+        if finished { lock.unlock(); c.resume(returning: nil); return false }
+        continuation = c
+        lock.unlock()
+        return true
+    }
+
+    func setRequestID(_ id: PHImageRequestID) {
+        lock.lock()
+        requestID = id
+        let alreadyFinished = finished
+        lock.unlock()
+        // 发请求的同时已被取消：请求本身也撤掉（对已正常完成的请求没有影响）
+        if alreadyFinished { cancelRequest(id) }
+    }
+
+    /// PhotoKit 的回调（可能来不止一次）
+    func handle(image: UIImage?, info: [AnyHashable: Any]?) {
+        switch Self.classify(info: info, highQuality: highQuality) {
+        case .keepWaiting: break
+        case .finished: finish(image)
+        case .failed: finish(nil)
+        }
+    }
+
+    /// 任务取消或超时：以 nil 结束，并取消 PhotoKit 请求
+    func cancel() {
+        lock.lock()
+        let id = requestID
+        lock.unlock()
+        if finish(nil), let id { cancelRequest(id) }
+    }
+
+    @discardableResult
+    private func finish(_ image: UIImage?) -> Bool {
+        lock.lock()
+        guard !finished else { lock.unlock(); return false }
+        finished = true
+        let c = continuation
+        continuation = nil
+        lock.unlock()
+        c?.resume(returning: image)
+        return true
     }
 }
 
