@@ -152,13 +152,21 @@ private struct PhotoInfoSheet: View {
                     if !tags.isEmpty { row("类型", tags.joined(separator: "、")) }
                 }
                 if let hit = app.search.hit(for: id), !hit.reasons.isEmpty {
-                    Section("为什么匹配") {
+                    Section {
                         ForEach(hit.reasons, id: \.self) { Text($0) }
+                    } header: {
+                        Text("为什么匹配")
+                    } footer: {
+                        Text("置信度是 Apple Vision 认为画面里有这样东西的把握，不是「这张图与搜索词有多相关」的概率。")
                     }
                 }
                 if let r = record, !r.labels.isEmpty {
-                    Section("识别到的内容（Apple Vision，本机）") {
+                    Section {
                         ForEach(LabelSummary.topNames(r, limit: 20, minConfidence: 0.15), id: \.self) { Text($0) }
+                    } header: {
+                        Text("识别到的内容（Apple Vision，本机）")
+                    } footer: {
+                        Text("百分比是画面识别的置信度。")
                     }
                 }
                 if let r = record, !r.ocrText.isEmpty {
@@ -194,8 +202,11 @@ private struct ZoomableImage: View {
     let id: String
     @State private var image: UIImage?
     @State private var failed = false
+    @Environment(AppModel.self) private var app
 
     var body: some View {
+        let _ = app.engine.revision                        // 索引更新时重新检查版本
+        let version = ImageLoader.shared.version(of: id)   // 照片被编辑后重新加载大图
         ZStack {
             if let image {
                 ZoomableScrollView(image: image)
@@ -205,7 +216,7 @@ private struct ZoomableImage: View {
                 ProgressView().tint(.white)
             }
         }
-        .task(id: id) {
+        .task(id: "\(id)#\(version)") {
             image = await ImageLoader.shared.fullImage(for: id)
             failed = image == nil
         }

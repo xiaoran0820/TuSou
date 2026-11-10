@@ -13,7 +13,7 @@ struct SettingsView: View {
                     Label {
                         VStack(alignment: .leading, spacing: 4) {
                             Text("完全离线运行").font(.headline)
-                            Text("图搜不联网，也不包含任何网络请求代码。场景/物体识别、图中文字识别、人脸与二维码检测、建立索引和搜索，全部由 Apple Vision 等系统框架在这台 iPhone 上完成，开着飞行模式也能正常使用。")
+                            Text("图搜不联网，也不包含任何网络请求代码。场景/物体识别、图中文字识别、人脸与二维码检测、画面语义比对（App 内置的 MobileCLIP 模型）、建立索引和搜索，全部在这台 iPhone 上完成，开着飞行模式也能正常使用。")
                                 .font(.footnote).foregroundStyle(.secondary)
                         }
                     } icon: {
@@ -51,6 +51,19 @@ struct SettingsView: View {
                     stat("导入的图片", engine.importedCount)
                     stat("已建立索引", engine.indexedCount)
                     if engine.failedCount > 0 { stat("暂时无法分析", engine.failedCount) }
+                    if engine.unsavedCount > 0 { stat("索引没能保存（下次扫描重试）", engine.unsavedCount) }
+                    HStack {
+                        Text("画面语义（MobileCLIP-S2）")
+                        Spacer()
+                        switch app.semanticStatus {
+                        case .loading: Text("正在加载模型…").foregroundStyle(.secondary)
+                        case .ready: Text("\(engine.embeddedCount) / \(engine.indexedCount) 张").foregroundStyle(.secondary)
+                        case .unavailable: Text("模型未安装").foregroundStyle(.orange)
+                        }
+                    }
+                    if let problem = engine.storageProblem {
+                        Text(problem).font(.caption).foregroundStyle(.red)
+                    }
                     ForEach(engine.unavailableAnalyses.unavailableAnalysisNames, id: \.self) { name in
                         HStack {
                             Text(name)
@@ -85,6 +98,14 @@ struct SettingsView: View {
                         .font(.footnote).foregroundStyle(.secondary)
                 } header: {
                     Text("关键词识别")
+                }
+
+                Section {
+                    Toggle("评测模式", isOn: Bindable(app.search).evalMode)
+                } header: {
+                    Text("测试")
+                } footer: {
+                    Text("给对比测试用，平常不需要打开。打开后：搜索页出现「检索方式」（融合 / 只用 Vision / 只用 MobileCLIP）和「范围」（全部 / 只搜导入的图片）两组切换；结果按得分顺序全部列出，不再收起只符合部分条件的；缩略图标出名次和导入时的文件名；从相册导入的图片，原文件名已经是 IMG_07 这样的编号就沿用，其余按选择顺序命名为 IMG_01、IMG_02 …。关掉后恢复平常的搜索方式。")
                 }
 
                 Section("关于") {
