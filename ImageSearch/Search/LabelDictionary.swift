@@ -114,6 +114,9 @@ final class LabelDictionary: Sendable {
 
     func displayName(for label: String) -> String { displayNames[label] ?? label }
 
+    /// 标签的英文写法（给 MobileCLIP 的描述用）：birthday_cake → birthday cake
+    func englishName(for label: String) -> String { label.replacingOccurrences(of: "_", with: " ") }
+
     func knowsChinese(_ term: String) -> Bool { zhIndex[term] != nil }
     func knowsEnglish(_ term: String) -> Bool { enIndex[term] != nil }
 

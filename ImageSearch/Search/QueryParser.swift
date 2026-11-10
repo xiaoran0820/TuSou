@@ -7,6 +7,15 @@ enum MetaPredicate: Sendable, Hashable {
     case faces(atLeast: Int)
     case qrCode, barcode, hasText, imported
 
+    /// 相册元数据或图片来源：只能按记录判断，MobileCLIP 的画面语义比对不能代替。
+    /// 人脸、二维码、文字这类画面内容不算
+    var isLibraryAttribute: Bool {
+        switch self {
+        case .screenshot, .favorite, .selfie, .panorama, .livePhoto, .portrait, .imported: return true
+        case .faces, .qrCode, .barcode, .hasText: return false
+        }
+    }
+
     var title: String {
         switch self {
         case .screenshot: return "截图"
@@ -64,6 +73,14 @@ struct QueryTerm: Sendable, Hashable {
 
 /// 把用户输入拆成检索词：日期表达式、中文分词、英文短语
 enum QueryParser {
+    private static let countingPhrase = try! NSRegularExpression(
+        pattern: "^[一二两三四五六七八九十几半多]+[只头匹个辆条张位对棵朵片块本支根把件双名座间台架艘颗粒杯碗盘份层群]?$")
+
+    /// 「两头」「三个」「一群」这类「数字 + 量词」，以及单独的「两」「三」
+    static func isCountingPhrase(_ s: String) -> Bool {
+        countingPhrase.firstMatch(in: s, range: NSRange(s.startIndex..., in: s)) != nil
+    }
+
     static let stopWords: Set<String> = [
         "的", "了", "在", "和", "与", "跟", "及", "或", "是", "有", "着", "把", "被", "给", "很", "都", "也", "还",
         "一", "张", "个", "只", "条", "头", "匹", "位", "些", "点", "种", "一张", "一个", "一些", "那", "这", "那些", "这些",
@@ -94,11 +111,33 @@ enum QueryParser {
         return m
     }()
 
+    /// 认识的词会被单独切出来：词典词、照片属性词、以及能翻成英文给 MobileCLIP 的常用词（红色、夜晚、骑…）
     static func isKnown(_ term: String, _ dict: LabelDictionary) -> Bool {
-        dict.knowsChinese(term) || metaKeywords[term] != nil
+        dict.knowsChinese(term) || metaKeywords[term] != nil || PromptLexicon.english[term] != nil
     }
 
-    static func parse(_ raw: String, dictionary: LabelDictionary, now: Date = Date(),
+    /// 分词时也认中英对照表里的词，但只认拆不成已知词的：「富士山」里的「富士」不认识，所以整体保留；
+    /// 「骑自行车」能拆成「骑」+「自行车」，就照旧拆开，原有查询的理解不变
+    static func isKnown(_ term: String, _ dict: LabelDictionary, glossary: Glossary) -> Bool {
+        if isKnown(term, dict) { return true }
+        guard term.count >= 2, glossary.english(for: term) != nil else { return false }
+        return !splitsIntoKnownWords(term, dict)
+    }
+
+    /// term 能否整个切成已知词（词典词、照片属性词、常用词表里的词）
+    private static func splitsIntoKnownWords(_ term: String, _ dict: LabelDictionary) -> Bool {
+        let chars = Array(term)
+        var reachable = [true] + Array(repeating: false, count: chars.count)
+        for end in 1...chars.count {
+            for start in 0..<end where reachable[start] && isKnown(String(chars[start..<end]), dict) {
+                reachable[end] = true
+                break
+            }
+        }
+        return reachable[chars.count]
+    }
+
+    static func parse(_ raw: String, dictionary: LabelDictionary, glossary: Glossary = .shared, now: Date = Date(),
                       calendar: Calendar = .current) -> [QueryTerm] {
         var text = TextNormalizer.normalize(raw)
         var terms: [QueryTerm] = []
@@ -107,7 +146,7 @@ enum QueryParser {
         // 按标点/符号切成片段，片段内再按中文/非中文切分
         for run in scriptRuns(text) {
             if run.isCJK {
-                for w in segmentChinese(run.text, dictionary) { terms.append(QueryTerm(text: w, kind: .word)) }
+                for w in segmentChinese(run.text, dictionary, glossary: glossary) { terms.append(QueryTerm(text: w, kind: .word)) }
             } else {
                 for w in segmentLatin(run.text, dictionary) { terms.append(QueryTerm(text: w, kind: .word)) }
             }
@@ -208,8 +247,9 @@ enum QueryParser {
     }
 
     /// 中文分词：整词命中词典 → 直接用；否则用 NLTokenizer 分词，再把相邻可组成词典词的片段合并
-    static func segmentChinese(_ s: String, _ dict: LabelDictionary) -> [String] {
-        if isKnown(s, dict) { return [s] }
+    static func segmentChinese(_ s: String, _ dict: LabelDictionary, glossary: Glossary = .shared) -> [String] {
+        let isKnown: (String) -> Bool = { Self.isKnown($0, dict, glossary: glossary) }
+        if isKnown(s) { return [s] }
         let tokenizer = NLTokenizer(unit: .word)
         tokenizer.string = s
         tokenizer.setLanguage(.simplifiedChinese)
@@ -222,7 +262,7 @@ enum QueryParser {
             var best = 1
             var j = min(tokens.count, i + 4)
             while j > i + 1 {
-                if isKnown(tokens[i..<j].joined(), dict) { best = j - i; break }
+                if isKnown(tokens[i..<j].joined()) { best = j - i; break }
                 j -= 1
             }
             merged.append(tokens[i..<(i + best)].joined())
@@ -234,11 +274,11 @@ enum QueryParser {
         var unknown = ""
         func flushUnknown() {
             guard !unknown.isEmpty else { return }
-            out += unknown.count >= 3 ? forwardMaxMatch(unknown, dict) : [unknown]
+            out += unknown.count >= 3 ? forwardMaxMatch(unknown, dict, glossary: glossary) : [unknown]
             unknown = ""
         }
         for t in merged {
-            if isKnown(t, dict) {
+            if isKnown(t) {
                 flushUnknown()
                 out.append(t)
             } else if stopWords.contains(t) {
@@ -248,11 +288,12 @@ enum QueryParser {
             }
         }
         flushUnknown()
-        return out.filter { !$0.isEmpty && !stopWords.contains($0) }
+        // 「两头」「三个」「一群」这类数量短语不当检索条件：它们没有英文、只能去图中文字里找，整句就没有图能完全匹配
+        return out.filter { !$0.isEmpty && !stopWords.contains($0) && (isKnown($0) || !isCountingPhrase($0)) }
     }
 
     /// 正向最大匹配，用于把较长的未知词拆出词典里认识的部分（剩余部分保留为未知词）
-    private static func forwardMaxMatch(_ s: String, _ dict: LabelDictionary) -> [String] {
+    private static func forwardMaxMatch(_ s: String, _ dict: LabelDictionary, glossary: Glossary) -> [String] {
         let chars = Array(s)
         var out: [String] = []
         var unknown = ""
@@ -260,10 +301,10 @@ enum QueryParser {
         var knownChars = 0
         while i < chars.count {
             var matched: String?
-            var len = min(dict.maxChineseKeyLength, chars.count - i)
+            var len = min(max(dict.maxChineseKeyLength, min(glossary.maxKeyLength, 8)), chars.count - i)
             while len >= 2 {
                 let cand = String(chars[i..<(i + len)])
-                if isKnown(cand, dict) { matched = cand; break }
+                if isKnown(cand, dict, glossary: glossary) { matched = cand; break }
                 len -= 1
             }
             if let m = matched {
