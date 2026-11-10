@@ -1,0 +1,1720 @@
+{
+  "images" : 118,
+  "model" : "mobileclip_s2",
+  "per_query" : [
+    {
+      "A" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 0.83333333333333337,
+        "shown" : 5,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "cat_5.jpg",
+          "cat_4.jpg",
+          "cat_6.jpg",
+          "cat_1.jpg",
+          "cat_3.jpg"
+        ]
+      },
+      "B" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 0.83333333333333337,
+        "shown" : 5,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "cat_5.jpg",
+          "cat_4.jpg",
+          "cat_6.jpg",
+          "cat_1.jpg",
+          "cat_3.jpg"
+        ]
+      },
+      "C" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 0.83333333333333337,
+        "shown" : 5,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "cat_5.jpg",
+          "cat_4.jpg",
+          "cat_6.jpg",
+          "cat_1.jpg",
+          "cat_3.jpg"
+        ]
+      },
+      "D" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 0.83333333333333337,
+        "shown" : 6,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "cat_5.jpg",
+          "cat_6.jpg",
+          "cat_4.jpg",
+          "cat_1.jpg",
+          "cat_3.jpg"
+        ]
+      },
+      "E" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 0.83333333333333337,
+        "top5" : [
+          "cat_5.jpg",
+          "cat_6.jpg",
+          "cat_4.jpg",
+          "cat_1.jpg",
+          "cat_2.jpg"
+        ]
+      },
+      "prompt" : "a photo of adult cat",
+      "query" : "猫",
+      "relevant" : [
+        "cat_1.jpg",
+        "cat_2.jpg",
+        "cat_3.jpg",
+        "cat_4.jpg",
+        "cat_5.jpg",
+        "cat_6.jpg"
+      ]
+    },
+    {
+      "A" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 0.7142857142857143,
+        "shown" : 5,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "dog_6.jpg",
+          "dog_2.jpg",
+          "dog_4.jpg",
+          "dog_5.jpg",
+          "dog_3.jpg"
+        ]
+      },
+      "B" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 0.7142857142857143,
+        "shown" : 5,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "dog_6.jpg",
+          "dog_2.jpg",
+          "dog_4.jpg",
+          "dog_5.jpg",
+          "dog_3.jpg"
+        ]
+      },
+      "C" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 0.7142857142857143,
+        "shown" : 5,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "dog_6.jpg",
+          "dog_2.jpg",
+          "dog_4.jpg",
+          "dog_5.jpg",
+          "dog_3.jpg"
+        ]
+      },
+      "D" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 0.7142857142857143,
+        "shown" : 7,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "dog_6.jpg",
+          "dog_4.jpg",
+          "dogbeach_1.jpg",
+          "dog_3.jpg",
+          "dog_2.jpg"
+        ]
+      },
+      "E" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 0.7142857142857143,
+        "top5" : [
+          "dog_6.jpg",
+          "dog_4.jpg",
+          "dogbeach_1.jpg",
+          "dog_3.jpg",
+          "dog_2.jpg"
+        ]
+      },
+      "prompt" : "a photo of dog",
+      "query" : "狗",
+      "relevant" : [
+        "dog_1.jpg",
+        "dog_2.jpg",
+        "dog_3.jpg",
+        "dog_4.jpg",
+        "dog_5.jpg",
+        "dog_6.jpg",
+        "dogbeach_1.jpg"
+      ]
+    },
+    {
+      "A" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 1,
+        "shown" : 5,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "beachsunset_6.jpg",
+          "beachsunset_2.jpg",
+          "beachsunset_3.jpg",
+          "beachsunset_5.jpg",
+          "beachsunset_4.jpg"
+        ]
+      },
+      "B" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 1,
+        "shown" : 5,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "beachsunset_6.jpg",
+          "beachsunset_2.jpg",
+          "beachsunset_3.jpg",
+          "beachsunset_5.jpg",
+          "beachsunset_4.jpg"
+        ]
+      },
+      "C" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 1,
+        "shown" : 5,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "beachsunset_6.jpg",
+          "beachsunset_2.jpg",
+          "beachsunset_3.jpg",
+          "beachsunset_5.jpg",
+          "beachsunset_4.jpg"
+        ]
+      },
+      "D" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 1,
+        "shown" : 5,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "beachsunset_6.jpg",
+          "beachsunset_2.jpg",
+          "beachsunset_5.jpg",
+          "beachsunset_4.jpg",
+          "beachsunset_3.jpg"
+        ]
+      },
+      "E" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 1,
+        "top5" : [
+          "beachsunset_6.jpg",
+          "beachsunset_2.jpg",
+          "beachsunset_5.jpg",
+          "beachsunset_4.jpg",
+          "beachsunset_3.jpg"
+        ]
+      },
+      "prompt" : "a photo of beach sunset",
+      "query" : "海边日落",
+      "relevant" : [
+        "beachsunset_2.jpg",
+        "beachsunset_3.jpg",
+        "beachsunset_4.jpg",
+        "beachsunset_5.jpg",
+        "beachsunset_6.jpg"
+      ]
+    },
+    {
+      "A" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 1,
+        "shown" : 5,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "cake_3.jpg",
+          "cake_1.jpg",
+          "cake_4.jpg",
+          "cake_2.jpg",
+          "cake_5.jpg"
+        ]
+      },
+      "B" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 1,
+        "shown" : 5,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "cake_3.jpg",
+          "cake_1.jpg",
+          "cake_4.jpg",
+          "cake_2.jpg",
+          "cake_5.jpg"
+        ]
+      },
+      "C" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 1,
+        "shown" : 5,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "cake_3.jpg",
+          "cake_1.jpg",
+          "cake_4.jpg",
+          "cake_2.jpg",
+          "cake_5.jpg"
+        ]
+      },
+      "D" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 1,
+        "shown" : 5,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "cake_3.jpg",
+          "cake_2.jpg",
+          "cake_1.jpg",
+          "cake_4.jpg",
+          "cake_5.jpg"
+        ]
+      },
+      "E" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 1,
+        "top5" : [
+          "cake_3.jpg",
+          "cake_2.jpg",
+          "cake_1.jpg",
+          "cake_4.jpg",
+          "cake_5.jpg"
+        ]
+      },
+      "prompt" : "a photo of birthday cake",
+      "query" : "生日蛋糕",
+      "relevant" : [
+        "cake_1.jpg",
+        "cake_2.jpg",
+        "cake_3.jpg",
+        "cake_4.jpg",
+        "cake_5.jpg"
+      ]
+    },
+    {
+      "A" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 1,
+        "shown" : 8,
+        "shown_irrelevant" : 3,
+        "top5" : [
+          "snowmountain_6.jpg",
+          "snowmountain_3.jpg",
+          "snowmountain_4.jpg",
+          "snowmountain_5.jpg",
+          "snowmountain_1.jpg"
+        ]
+      },
+      "B" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 1,
+        "shown" : 8,
+        "shown_irrelevant" : 3,
+        "top5" : [
+          "snowmountain_6.jpg",
+          "snowmountain_3.jpg",
+          "snowmountain_4.jpg",
+          "snowmountain_5.jpg",
+          "snowmountain_1.jpg"
+        ]
+      },
+      "C" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 1,
+        "shown" : 8,
+        "shown_irrelevant" : 3,
+        "top5" : [
+          "snowmountain_6.jpg",
+          "snowmountain_3.jpg",
+          "snowmountain_4.jpg",
+          "snowmountain_5.jpg",
+          "snowmountain_1.jpg"
+        ]
+      },
+      "D" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 1,
+        "shown" : 8,
+        "shown_irrelevant" : 3,
+        "top5" : [
+          "snowmountain_6.jpg",
+          "snowmountain_3.jpg",
+          "snowmountain_4.jpg",
+          "snowmountain_5.jpg",
+          "snowmountain_1.jpg"
+        ]
+      },
+      "E" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 1,
+        "top5" : [
+          "snowmountain_6.jpg",
+          "snowmountain_4.jpg",
+          "snowmountain_3.jpg",
+          "snowmountain_5.jpg",
+          "snowmountain_1.jpg"
+        ]
+      },
+      "prompt" : "a photo of snowy mountain",
+      "query" : "雪山",
+      "relevant" : [
+        "snowmountain_1.jpg",
+        "snowmountain_3.jpg",
+        "snowmountain_4.jpg",
+        "snowmountain_5.jpg",
+        "snowmountain_6.jpg"
+      ]
+    },
+    {
+      "A" : {
+        "mrr" : 1,
+        "p5" : 0.59999999999999998,
+        "r5" : 1,
+        "shown" : 6,
+        "shown_irrelevant" : 3,
+        "top5" : [
+          "redcar_6.jpg",
+          "redcar_3.jpg",
+          "redcar_4.jpg",
+          "bicycle_4.jpg",
+          "bluecar_2.jpg"
+        ]
+      },
+      "B" : {
+        "mrr" : 1,
+        "p5" : 0.59999999999999998,
+        "r5" : 1,
+        "shown" : 6,
+        "shown_irrelevant" : 3,
+        "top5" : [
+          "redcar_6.jpg",
+          "redcar_3.jpg",
+          "redcar_4.jpg",
+          "bicycle_4.jpg",
+          "bluecar_2.jpg"
+        ]
+      },
+      "C" : {
+        "mrr" : 1,
+        "p5" : 0.59999999999999998,
+        "r5" : 1,
+        "shown" : 6,
+        "shown_irrelevant" : 3,
+        "top5" : [
+          "redcar_6.jpg",
+          "redcar_3.jpg",
+          "redcar_4.jpg",
+          "bicycle_4.jpg",
+          "bluecar_2.jpg"
+        ]
+      },
+      "D" : {
+        "mrr" : 0.5,
+        "p5" : 0.59999999999999998,
+        "r5" : 1,
+        "shown" : 6,
+        "shown_irrelevant" : 3,
+        "top5" : [
+          "redcar_1.jpg",
+          "redcar_6.jpg",
+          "redcar_4.jpg",
+          "redcar_3.jpg",
+          "redcar_2.jpg"
+        ]
+      },
+      "E" : {
+        "mrr" : 0.5,
+        "p5" : 0.59999999999999998,
+        "r5" : 1,
+        "top5" : [
+          "redcar_1.jpg",
+          "redcar_4.jpg",
+          "redcar_2.jpg",
+          "redcar_6.jpg",
+          "redcar_3.jpg"
+        ]
+      },
+      "prompt" : "a photo of red car",
+      "query" : "红色的汽车",
+      "relevant" : [
+        "redcar_3.jpg",
+        "redcar_4.jpg",
+        "redcar_6.jpg"
+      ]
+    },
+    {
+      "A" : {
+        "mrr" : 1,
+        "p5" : 0.40000000000000002,
+        "r5" : 0.40000000000000002,
+        "shown" : 8,
+        "shown_irrelevant" : 5,
+        "top5" : [
+          "citynight_5.jpg",
+          "balloon_6.jpg",
+          "citynight_6.jpg",
+          "balloon_3.jpg",
+          "bridge_5.jpg"
+        ]
+      },
+      "B" : {
+        "mrr" : 1,
+        "p5" : 0.40000000000000002,
+        "r5" : 0.40000000000000002,
+        "shown" : 8,
+        "shown_irrelevant" : 5,
+        "top5" : [
+          "citynight_5.jpg",
+          "balloon_6.jpg",
+          "citynight_6.jpg",
+          "balloon_3.jpg",
+          "bridge_5.jpg"
+        ]
+      },
+      "C" : {
+        "mrr" : 1,
+        "p5" : 0.40000000000000002,
+        "r5" : 0.40000000000000002,
+        "shown" : 8,
+        "shown_irrelevant" : 5,
+        "top5" : [
+          "citynight_5.jpg",
+          "balloon_6.jpg",
+          "citynight_6.jpg",
+          "balloon_3.jpg",
+          "bridge_5.jpg"
+        ]
+      },
+      "D" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 1,
+        "shown" : 5,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "citynight_6.jpg",
+          "citynight_3.jpg",
+          "citynight_5.jpg",
+          "citynight_2.jpg",
+          "citynight_1.jpg"
+        ]
+      },
+      "E" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 1,
+        "top5" : [
+          "citynight_6.jpg",
+          "citynight_3.jpg",
+          "citynight_5.jpg",
+          "citynight_2.jpg",
+          "citynight_1.jpg"
+        ]
+      },
+      "prompt" : "a photo of city at night",
+      "query" : "夜晚的城市",
+      "relevant" : [
+        "citynight_1.jpg",
+        "citynight_2.jpg",
+        "citynight_3.jpg",
+        "citynight_5.jpg",
+        "citynight_6.jpg"
+      ]
+    },
+    {
+      "A" : {
+        "mrr" : 1,
+        "p5" : 0.80000000000000004,
+        "r5" : 0.80000000000000004,
+        "shown" : 4,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "bicycle_4.jpg",
+          "bicycle_3.jpg",
+          "bicycle_1.jpg",
+          "bicycle_2.jpg",
+          "menu_5.jpg"
+        ]
+      },
+      "B" : {
+        "mrr" : 1,
+        "p5" : 0.80000000000000004,
+        "r5" : 0.80000000000000004,
+        "shown" : 4,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "bicycle_4.jpg",
+          "bicycle_3.jpg",
+          "bicycle_1.jpg",
+          "bicycle_2.jpg",
+          "menu_5.jpg"
+        ]
+      },
+      "C" : {
+        "mrr" : 1,
+        "p5" : 0.80000000000000004,
+        "r5" : 0.80000000000000004,
+        "shown" : 4,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "bicycle_4.jpg",
+          "bicycle_3.jpg",
+          "bicycle_1.jpg",
+          "bicycle_2.jpg",
+          "menu_5.jpg"
+        ]
+      },
+      "D" : {
+        "mrr" : 1,
+        "p5" : 0.80000000000000004,
+        "r5" : 0.80000000000000004,
+        "shown" : 6,
+        "shown_irrelevant" : 1,
+        "top5" : [
+          "bicycle_3.jpg",
+          "bicycle_4.jpg",
+          "bicycle_6.jpg",
+          "bicycle_1.jpg",
+          "bicycle_5.jpg"
+        ]
+      },
+      "E" : {
+        "mrr" : 1,
+        "p5" : 0.80000000000000004,
+        "r5" : 0.80000000000000004,
+        "top5" : [
+          "bicycle_3.jpg",
+          "bicycle_4.jpg",
+          "bicycle_6.jpg",
+          "bicycle_1.jpg",
+          "bicycle_5.jpg"
+        ]
+      },
+      "prompt" : "a photo of cycling person",
+      "query" : "骑自行车的人",
+      "relevant" : [
+        "bicycle_1.jpg",
+        "bicycle_2.jpg",
+        "bicycle_3.jpg",
+        "bicycle_4.jpg",
+        "bicycle_5.jpg"
+      ]
+    },
+    {
+      "A" : {
+        "mrr" : 0.20000000000000001,
+        "p5" : 0.20000000000000001,
+        "r5" : 0.5,
+        "shown" : 5,
+        "shown_irrelevant" : 4,
+        "top5" : [
+          "bluecar_3.jpg",
+          "bluecar_2.jpg",
+          "bicycle_4.jpg",
+          "bicycle_1.jpg",
+          "rain_3.jpg"
+        ]
+      },
+      "B" : {
+        "mrr" : 0.20000000000000001,
+        "p5" : 0.20000000000000001,
+        "r5" : 0.5,
+        "shown" : 5,
+        "shown_irrelevant" : 4,
+        "top5" : [
+          "bluecar_3.jpg",
+          "bluecar_2.jpg",
+          "bicycle_4.jpg",
+          "bicycle_1.jpg",
+          "rain_3.jpg"
+        ]
+      },
+      "C" : {
+        "mrr" : 0.037037037037037035,
+        "p5" : 0,
+        "r5" : 0,
+        "shown" : 2,
+        "shown_irrelevant" : 2,
+        "top5" : [
+          "bluecar_2.jpg",
+          "bicycle_4.jpg",
+          "bluecar_3.jpg",
+          "menu_1.jpg",
+          "children_6.jpg"
+        ]
+      },
+      "D" : {
+        "mrr" : 1,
+        "p5" : 0.40000000000000002,
+        "r5" : 1,
+        "shown" : 3,
+        "shown_irrelevant" : 1,
+        "top5" : [
+          "rain_3.jpg",
+          "rain_6.jpg",
+          "rain_1.jpg",
+          "bluecar_3.jpg",
+          "bluecar_2.jpg"
+        ]
+      },
+      "E" : {
+        "mrr" : 1,
+        "p5" : 0.40000000000000002,
+        "r5" : 1,
+        "top5" : [
+          "rain_3.jpg",
+          "rain_6.jpg",
+          "rain_1.jpg",
+          "forest_3.jpg",
+          "rain_2.jpg"
+        ]
+      },
+      "prompt" : "a photo of street in the rain",
+      "query" : "下雨的街道",
+      "relevant" : [
+        "rain_3.jpg",
+        "rain_6.jpg"
+      ]
+    },
+    {
+      "A" : {
+        "mrr" : 1,
+        "p5" : 0.59999999999999998,
+        "r5" : 0.75,
+        "shown" : 3,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "noodles_3.jpg",
+          "noodles_5.jpg",
+          "noodles_4.jpg"
+        ]
+      },
+      "B" : {
+        "mrr" : 1,
+        "p5" : 0.59999999999999998,
+        "r5" : 0.75,
+        "shown" : 3,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "noodles_3.jpg",
+          "noodles_5.jpg",
+          "noodles_4.jpg"
+        ]
+      },
+      "C" : {
+        "mrr" : 1,
+        "p5" : 0.80000000000000004,
+        "r5" : 1,
+        "shown" : 5,
+        "shown_irrelevant" : 1,
+        "top5" : [
+          "noodles_3.jpg",
+          "noodles_5.jpg",
+          "noodles_4.jpg",
+          "noodles_2.jpg",
+          "noodles_6.jpg"
+        ]
+      },
+      "D" : {
+        "mrr" : 0.5,
+        "p5" : 0.59999999999999998,
+        "r5" : 0.75,
+        "shown" : 6,
+        "shown_irrelevant" : 2,
+        "top5" : [
+          "noodles_2.jpg",
+          "noodles_5.jpg",
+          "noodles_1.jpg",
+          "noodles_4.jpg",
+          "noodles_3.jpg"
+        ]
+      },
+      "E" : {
+        "mrr" : 0.5,
+        "p5" : 0.59999999999999998,
+        "r5" : 0.75,
+        "top5" : [
+          "noodles_2.jpg",
+          "noodles_5.jpg",
+          "noodles_1.jpg",
+          "noodles_4.jpg",
+          "noodles_3.jpg"
+        ]
+      },
+      "prompt" : "a photo of bowl noodles",
+      "query" : "一碗面条",
+      "relevant" : [
+        "noodles_3.jpg",
+        "noodles_4.jpg",
+        "noodles_5.jpg",
+        "noodles_6.jpg"
+      ]
+    },
+    {
+      "A" : {
+        "mrr" : 1,
+        "p5" : 0.20000000000000001,
+        "r5" : 0.25,
+        "shown" : 1,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "flowers_3.jpg"
+        ]
+      },
+      "B" : {
+        "mrr" : 1,
+        "p5" : 0.20000000000000001,
+        "r5" : 0.25,
+        "shown" : 2,
+        "shown_irrelevant" : 1,
+        "top5" : [
+          "flowers_3.jpg",
+          "menu_3.jpg"
+        ]
+      },
+      "C" : {
+        "mrr" : 1,
+        "p5" : 0.20000000000000001,
+        "r5" : 0.25,
+        "shown" : 2,
+        "shown_irrelevant" : 1,
+        "top5" : [
+          "flowers_3.jpg",
+          "menu_3.jpg"
+        ]
+      },
+      "D" : {
+        "mrr" : 1,
+        "p5" : 0.40000000000000002,
+        "r5" : 0.5,
+        "shown" : 3,
+        "shown_irrelevant" : 1,
+        "top5" : [
+          "flowers_4.jpg",
+          "flowers_3.jpg",
+          "menu_3.jpg"
+        ]
+      },
+      "E" : {
+        "mrr" : 1,
+        "p5" : 0.59999999999999998,
+        "r5" : 0.75,
+        "top5" : [
+          "flowers_4.jpg",
+          "flowers_3.jpg",
+          "flowers_5.jpg",
+          "noodles_2.jpg",
+          "menu_4.jpg"
+        ]
+      },
+      "prompt" : "a photo of flower",
+      "query" : "花",
+      "relevant" : [
+        "flowers_1.jpg",
+        "flowers_3.jpg",
+        "flowers_4.jpg",
+        "flowers_5.jpg"
+      ]
+    },
+    {
+      "A" : {
+        "mrr" : 0,
+        "p5" : 0,
+        "r5" : 0,
+        "shown" : 0,
+        "shown_irrelevant" : 0,
+        "top5" : [
+
+        ]
+      },
+      "B" : {
+        "mrr" : 1,
+        "p5" : 0.20000000000000001,
+        "r5" : 0.33333333333333331,
+        "shown" : 1,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "doc_invoice_cn.jpg"
+        ]
+      },
+      "C" : {
+        "mrr" : 1,
+        "p5" : 0.59999999999999998,
+        "r5" : 1,
+        "shown" : 3,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "doc_invoice_cn.jpg",
+          "doc_receipt_cn.jpg",
+          "doc_receipt_en.jpg"
+        ]
+      },
+      "D" : {
+        "mrr" : 1,
+        "p5" : 0.59999999999999998,
+        "r5" : 1,
+        "shown" : 3,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "doc_receipt_en.jpg",
+          "doc_receipt_cn.jpg",
+          "doc_invoice_cn.jpg"
+        ]
+      },
+      "E" : {
+        "mrr" : 1,
+        "p5" : 0.59999999999999998,
+        "r5" : 1,
+        "top5" : [
+          "doc_receipt_en.jpg",
+          "doc_receipt_cn.jpg",
+          "doc_invoice_cn.jpg",
+          "doc_qr_poster.jpg",
+          "menu_2.jpg"
+        ]
+      },
+      "prompt" : "a photo of receipt",
+      "query" : "发票",
+      "relevant" : [
+        "doc_invoice_cn.jpg",
+        "doc_receipt_cn.jpg",
+        "doc_receipt_en.jpg"
+      ]
+    },
+    {
+      "A" : {
+        "mrr" : 0,
+        "p5" : 0,
+        "r5" : 0,
+        "shown" : 0,
+        "shown_irrelevant" : 0,
+        "top5" : [
+
+        ]
+      },
+      "B" : {
+        "mrr" : 0,
+        "p5" : 0,
+        "r5" : 0,
+        "shown" : 0,
+        "shown_irrelevant" : 0,
+        "top5" : [
+
+        ]
+      },
+      "C" : {
+        "mrr" : 0,
+        "p5" : 0,
+        "r5" : 0,
+        "shown" : 10,
+        "shown_irrelevant" : 10,
+        "top5" : [
+          "cake_3.jpg",
+          "cake_1.jpg",
+          "noodles_3.jpg",
+          "cake_4.jpg",
+          "cake_2.jpg"
+        ]
+      },
+      "D" : {
+        "mrr" : 1,
+        "p5" : 0.80000000000000004,
+        "r5" : 0.80000000000000004,
+        "shown" : 5,
+        "shown_irrelevant" : 1,
+        "top5" : [
+          "menu_2.jpg",
+          "menu_3.jpg",
+          "menu_4.jpg",
+          "menu_1.jpg",
+          "noodles_4.jpg"
+        ]
+      },
+      "E" : {
+        "mrr" : 1,
+        "p5" : 0.80000000000000004,
+        "r5" : 0.80000000000000004,
+        "top5" : [
+          "menu_2.jpg",
+          "menu_3.jpg",
+          "menu_4.jpg",
+          "menu_1.jpg",
+          "noodles_4.jpg"
+        ]
+      },
+      "prompt" : "a photo of menu",
+      "query" : "菜单",
+      "relevant" : [
+        "menu_1.jpg",
+        "menu_2.jpg",
+        "menu_3.jpg",
+        "menu_4.jpg",
+        "menu_5.jpg"
+      ]
+    },
+    {
+      "A" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 0.83333333333333337,
+        "shown" : 6,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "waterfall_3.jpg",
+          "waterfall_6.jpg",
+          "waterfall_5.jpg",
+          "waterfall_1.jpg",
+          "waterfall_4.jpg"
+        ]
+      },
+      "B" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 0.83333333333333337,
+        "shown" : 6,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "waterfall_3.jpg",
+          "waterfall_6.jpg",
+          "waterfall_5.jpg",
+          "waterfall_1.jpg",
+          "waterfall_4.jpg"
+        ]
+      },
+      "C" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 0.83333333333333337,
+        "shown" : 6,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "waterfall_3.jpg",
+          "waterfall_6.jpg",
+          "waterfall_5.jpg",
+          "waterfall_1.jpg",
+          "waterfall_4.jpg"
+        ]
+      },
+      "D" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 0.83333333333333337,
+        "shown" : 6,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "waterfall_3.jpg",
+          "waterfall_6.jpg",
+          "waterfall_5.jpg",
+          "waterfall_1.jpg",
+          "waterfall_4.jpg"
+        ]
+      },
+      "E" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 0.83333333333333337,
+        "top5" : [
+          "waterfall_6.jpg",
+          "waterfall_3.jpg",
+          "waterfall_1.jpg",
+          "waterfall_5.jpg",
+          "waterfall_4.jpg"
+        ]
+      },
+      "prompt" : "a photo of waterfall",
+      "query" : "瀑布",
+      "relevant" : [
+        "waterfall_1.jpg",
+        "waterfall_2.jpg",
+        "waterfall_3.jpg",
+        "waterfall_4.jpg",
+        "waterfall_5.jpg",
+        "waterfall_6.jpg"
+      ]
+    },
+    {
+      "A" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 0.83333333333333337,
+        "shown" : 6,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "balloon_4.jpg",
+          "balloon_3.jpg",
+          "balloon_5.jpg",
+          "balloon_1.jpg",
+          "balloon_2.jpg"
+        ]
+      },
+      "B" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 0.83333333333333337,
+        "shown" : 6,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "balloon_4.jpg",
+          "balloon_3.jpg",
+          "balloon_5.jpg",
+          "balloon_1.jpg",
+          "balloon_2.jpg"
+        ]
+      },
+      "C" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 0.83333333333333337,
+        "shown" : 6,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "balloon_4.jpg",
+          "balloon_3.jpg",
+          "balloon_5.jpg",
+          "balloon_1.jpg",
+          "balloon_2.jpg"
+        ]
+      },
+      "D" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 0.83333333333333337,
+        "shown" : 6,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "balloon_1.jpg",
+          "balloon_4.jpg",
+          "balloon_3.jpg",
+          "balloon_5.jpg",
+          "balloon_2.jpg"
+        ]
+      },
+      "E" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 0.83333333333333337,
+        "top5" : [
+          "balloon_1.jpg",
+          "balloon_4.jpg",
+          "balloon_2.jpg",
+          "balloon_3.jpg",
+          "balloon_5.jpg"
+        ]
+      },
+      "prompt" : "a photo of hot air balloon",
+      "query" : "热气球",
+      "relevant" : [
+        "balloon_1.jpg",
+        "balloon_2.jpg",
+        "balloon_3.jpg",
+        "balloon_4.jpg",
+        "balloon_5.jpg",
+        "balloon_6.jpg"
+      ]
+    },
+    {
+      "A" : {
+        "mrr" : 0.25,
+        "p5" : 0.20000000000000001,
+        "r5" : 0.33333333333333331,
+        "shown" : 5,
+        "shown_irrelevant" : 4,
+        "top5" : [
+          "dog_5.jpg",
+          "dog_1.jpg",
+          "bicycle_1.jpg",
+          "children_4.jpg",
+          "children_2.jpg"
+        ]
+      },
+      "B" : {
+        "mrr" : 0.25,
+        "p5" : 0.20000000000000001,
+        "r5" : 0.33333333333333331,
+        "shown" : 5,
+        "shown_irrelevant" : 4,
+        "top5" : [
+          "dog_5.jpg",
+          "dog_1.jpg",
+          "bicycle_1.jpg",
+          "children_4.jpg",
+          "children_2.jpg"
+        ]
+      },
+      "C" : {
+        "mrr" : 0.25,
+        "p5" : 0.20000000000000001,
+        "r5" : 0.33333333333333331,
+        "shown" : 5,
+        "shown_irrelevant" : 4,
+        "top5" : [
+          "dog_5.jpg",
+          "dog_1.jpg",
+          "bicycle_1.jpg",
+          "children_4.jpg",
+          "children_2.jpg"
+        ]
+      },
+      "D" : {
+        "mrr" : 1,
+        "p5" : 0.20000000000000001,
+        "r5" : 0.33333333333333331,
+        "shown" : 2,
+        "shown_irrelevant" : 1,
+        "top5" : [
+          "children_4.jpg",
+          "children_2.jpg",
+          "dog_5.jpg",
+          "dog_1.jpg",
+          "bicycle_1.jpg"
+        ]
+      },
+      "E" : {
+        "mrr" : 1,
+        "p5" : 0.20000000000000001,
+        "r5" : 0.33333333333333331,
+        "top5" : [
+          "children_4.jpg",
+          "children_2.jpg",
+          "beachsunset_2.jpg",
+          "beachsunset_5.jpg",
+          "dog_5.jpg"
+        ]
+      },
+      "prompt" : "a photo of children playing",
+      "query" : "小孩在玩耍",
+      "relevant" : [
+        "children_1.jpg",
+        "children_4.jpg",
+        "children_5.jpg"
+      ]
+    },
+    {
+      "A" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 1,
+        "shown" : 5,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "basketball_4.jpg",
+          "basketball_2.jpg",
+          "basketball_1.jpg",
+          "basketball_3.jpg",
+          "basketball_5.jpg"
+        ]
+      },
+      "B" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 1,
+        "shown" : 5,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "basketball_4.jpg",
+          "basketball_2.jpg",
+          "basketball_1.jpg",
+          "basketball_3.jpg",
+          "basketball_5.jpg"
+        ]
+      },
+      "C" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 1,
+        "shown" : 5,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "basketball_4.jpg",
+          "basketball_2.jpg",
+          "basketball_1.jpg",
+          "basketball_5.jpg",
+          "basketball_3.jpg"
+        ]
+      },
+      "D" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 1,
+        "shown" : 5,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "basketball_4.jpg",
+          "basketball_2.jpg",
+          "basketball_1.jpg",
+          "basketball_5.jpg",
+          "basketball_3.jpg"
+        ]
+      },
+      "E" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 1,
+        "top5" : [
+          "basketball_2.jpg",
+          "basketball_1.jpg",
+          "basketball_4.jpg",
+          "basketball_3.jpg",
+          "basketball_5.jpg"
+        ]
+      },
+      "prompt" : "a photo of basketball",
+      "query" : "篮球",
+      "relevant" : [
+        "basketball_1.jpg",
+        "basketball_2.jpg",
+        "basketball_3.jpg",
+        "basketball_4.jpg",
+        "basketball_5.jpg"
+      ]
+    },
+    {
+      "A" : {
+        "mrr" : 0.5,
+        "p5" : 0.40000000000000002,
+        "r5" : 0.66666666666666663,
+        "shown" : 6,
+        "shown_irrelevant" : 3,
+        "top5" : [
+          "bicycle_4.jpg",
+          "redcar_4.jpg",
+          "redcar_3.jpg",
+          "bluecar_2.jpg",
+          "redcar_5.jpg"
+        ]
+      },
+      "B" : {
+        "mrr" : 0.5,
+        "p5" : 0.40000000000000002,
+        "r5" : 0.66666666666666663,
+        "shown" : 6,
+        "shown_irrelevant" : 3,
+        "top5" : [
+          "bicycle_4.jpg",
+          "redcar_4.jpg",
+          "redcar_3.jpg",
+          "bluecar_2.jpg",
+          "redcar_5.jpg"
+        ]
+      },
+      "C" : {
+        "mrr" : 0.5,
+        "p5" : 0.40000000000000002,
+        "r5" : 0.66666666666666663,
+        "shown" : 6,
+        "shown_irrelevant" : 3,
+        "top5" : [
+          "bicycle_4.jpg",
+          "redcar_4.jpg",
+          "redcar_3.jpg",
+          "bluecar_2.jpg",
+          "redcar_5.jpg"
+        ]
+      },
+      "D" : {
+        "mrr" : 0.5,
+        "p5" : 0.59999999999999998,
+        "r5" : 1,
+        "shown" : 6,
+        "shown_irrelevant" : 3,
+        "top5" : [
+          "redcar_1.jpg",
+          "redcar_4.jpg",
+          "redcar_2.jpg",
+          "redcar_3.jpg",
+          "redcar_6.jpg"
+        ]
+      },
+      "E" : {
+        "mrr" : 0.5,
+        "p5" : 0.59999999999999998,
+        "r5" : 1,
+        "top5" : [
+          "redcar_1.jpg",
+          "redcar_4.jpg",
+          "redcar_2.jpg",
+          "redcar_6.jpg",
+          "redcar_3.jpg"
+        ]
+      },
+      "prompt" : "a photo of red car",
+      "query" : "red car",
+      "relevant" : [
+        "redcar_3.jpg",
+        "redcar_4.jpg",
+        "redcar_6.jpg"
+      ]
+    },
+    {
+      "A" : {
+        "mrr" : 0,
+        "p5" : 0,
+        "r5" : 0,
+        "shown" : 10,
+        "shown_irrelevant" : 10,
+        "top5" : [
+          "dogbeach_5.jpg",
+          "dog_6.jpg",
+          "dogbeach_2.jpg",
+          "beachsunset_4.jpg",
+          "dogbeach_3.jpg"
+        ]
+      },
+      "B" : {
+        "mrr" : 0,
+        "p5" : 0,
+        "r5" : 0,
+        "shown" : 10,
+        "shown_irrelevant" : 10,
+        "top5" : [
+          "dogbeach_3.jpg",
+          "dogbeach_5.jpg",
+          "dog_6.jpg",
+          "dogbeach_2.jpg",
+          "beachsunset_4.jpg"
+        ]
+      },
+      "C" : {
+        "mrr" : 0,
+        "p5" : 0,
+        "r5" : 0,
+        "shown" : 10,
+        "shown_irrelevant" : 10,
+        "top5" : [
+          "dogbeach_3.jpg",
+          "dogbeach_5.jpg",
+          "dog_6.jpg",
+          "dogbeach_2.jpg",
+          "beachsunset_4.jpg"
+        ]
+      },
+      "D" : {
+        "mrr" : 1,
+        "p5" : 0.20000000000000001,
+        "r5" : 1,
+        "shown" : 2,
+        "shown_irrelevant" : 1,
+        "top5" : [
+          "dogbeach_1.jpg",
+          "dogbeach_4.jpg",
+          "dogbeach_3.jpg",
+          "dogbeach_5.jpg",
+          "dog_6.jpg"
+        ]
+      },
+      "E" : {
+        "mrr" : 1,
+        "p5" : 0.20000000000000001,
+        "r5" : 1,
+        "top5" : [
+          "dogbeach_1.jpg",
+          "dogbeach_4.jpg",
+          "dogbeach_5.jpg",
+          "dogbeach_2.jpg",
+          "beachsunset_1.jpg"
+        ]
+      },
+      "prompt" : "a photo of dog on the beach",
+      "query" : "dog on the beach",
+      "relevant" : [
+        "dogbeach_1.jpg"
+      ]
+    },
+    {
+      "A" : {
+        "mrr" : 1,
+        "p5" : 0.20000000000000001,
+        "r5" : 0.20000000000000001,
+        "shown" : 8,
+        "shown_irrelevant" : 5,
+        "top5" : [
+          "citynight_5.jpg",
+          "balloon_6.jpg",
+          "balloon_3.jpg",
+          "bridge_5.jpg",
+          "bridge_4.jpg"
+        ]
+      },
+      "B" : {
+        "mrr" : 1,
+        "p5" : 0.20000000000000001,
+        "r5" : 0.20000000000000001,
+        "shown" : 8,
+        "shown_irrelevant" : 5,
+        "top5" : [
+          "citynight_5.jpg",
+          "balloon_6.jpg",
+          "balloon_3.jpg",
+          "bridge_5.jpg",
+          "bridge_4.jpg"
+        ]
+      },
+      "C" : {
+        "mrr" : 1,
+        "p5" : 0.20000000000000001,
+        "r5" : 0.20000000000000001,
+        "shown" : 8,
+        "shown_irrelevant" : 5,
+        "top5" : [
+          "citynight_5.jpg",
+          "balloon_6.jpg",
+          "balloon_3.jpg",
+          "bridge_5.jpg",
+          "bridge_4.jpg"
+        ]
+      },
+      "D" : {
+        "mrr" : 1,
+        "p5" : 0.80000000000000004,
+        "r5" : 0.80000000000000004,
+        "shown" : 4,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "citynight_6.jpg",
+          "citynight_3.jpg",
+          "citynight_5.jpg",
+          "citynight_1.jpg",
+          "balloon_6.jpg"
+        ]
+      },
+      "E" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 1,
+        "top5" : [
+          "citynight_6.jpg",
+          "citynight_3.jpg",
+          "citynight_5.jpg",
+          "citynight_2.jpg",
+          "citynight_1.jpg"
+        ]
+      },
+      "prompt" : "a photo of city at night",
+      "query" : "city at night",
+      "relevant" : [
+        "citynight_1.jpg",
+        "citynight_2.jpg",
+        "citynight_3.jpg",
+        "citynight_5.jpg",
+        "citynight_6.jpg"
+      ]
+    },
+    {
+      "A" : {
+        "mrr" : 0,
+        "p5" : 0,
+        "r5" : 0,
+        "shown" : 0,
+        "shown_irrelevant" : 0,
+        "top5" : [
+
+        ]
+      },
+      "B" : {
+        "mrr" : 1,
+        "p5" : 0.20000000000000001,
+        "r5" : 0.33333333333333331,
+        "shown" : 1,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "doc_receipt_en.jpg"
+        ]
+      },
+      "C" : {
+        "mrr" : 1,
+        "p5" : 0.59999999999999998,
+        "r5" : 1,
+        "shown" : 3,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "doc_receipt_en.jpg",
+          "doc_invoice_cn.jpg",
+          "doc_receipt_cn.jpg"
+        ]
+      },
+      "D" : {
+        "mrr" : 1,
+        "p5" : 0.59999999999999998,
+        "r5" : 1,
+        "shown" : 3,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "doc_receipt_en.jpg",
+          "doc_receipt_cn.jpg",
+          "doc_invoice_cn.jpg"
+        ]
+      },
+      "E" : {
+        "mrr" : 1,
+        "p5" : 0.59999999999999998,
+        "r5" : 1,
+        "top5" : [
+          "doc_receipt_en.jpg",
+          "doc_receipt_cn.jpg",
+          "doc_invoice_cn.jpg",
+          "doc_qr_poster.jpg",
+          "menu_2.jpg"
+        ]
+      },
+      "prompt" : "a photo of receipt",
+      "query" : "receipt",
+      "relevant" : [
+        "doc_invoice_cn.jpg",
+        "doc_receipt_cn.jpg",
+        "doc_receipt_en.jpg"
+      ]
+    },
+    {
+      "A" : {
+        "mrr" : 1,
+        "p5" : 0.59999999999999998,
+        "r5" : 0.59999999999999998,
+        "shown" : 3,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "bridge_1.jpg",
+          "bridge_4.jpg",
+          "bridge_5.jpg"
+        ]
+      },
+      "B" : {
+        "mrr" : 1,
+        "p5" : 0.59999999999999998,
+        "r5" : 0.59999999999999998,
+        "shown" : 3,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "bridge_1.jpg",
+          "bridge_4.jpg",
+          "bridge_5.jpg"
+        ]
+      },
+      "C" : {
+        "mrr" : 1,
+        "p5" : 0.59999999999999998,
+        "r5" : 0.59999999999999998,
+        "shown" : 3,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "bridge_1.jpg",
+          "bridge_4.jpg",
+          "bridge_5.jpg"
+        ]
+      },
+      "D" : {
+        "mrr" : 1,
+        "p5" : 0.80000000000000004,
+        "r5" : 0.80000000000000004,
+        "shown" : 4,
+        "shown_irrelevant" : 0,
+        "top5" : [
+          "bridge_1.jpg",
+          "bridge_4.jpg",
+          "bridge_3.jpg",
+          "bridge_5.jpg"
+        ]
+      },
+      "E" : {
+        "mrr" : 1,
+        "p5" : 1,
+        "r5" : 1,
+        "top5" : [
+          "bridge_1.jpg",
+          "bridge_3.jpg",
+          "bridge_4.jpg",
+          "bridge_5.jpg",
+          "bridge_2.jpg"
+        ]
+      },
+      "prompt" : "a photo of bridge",
+      "query" : "bridge",
+      "relevant" : [
+        "bridge_1.jpg",
+        "bridge_2.jpg",
+        "bridge_3.jpg",
+        "bridge_4.jpg",
+        "bridge_5.jpg"
+      ]
+    }
+  ],
+  "queries" : 22,
+  "summary" : [
+    {
+      "config" : "A 画面标签",
+      "mrr" : 0.72499999999999998,
+      "precision@5" : 0.55454545454545456,
+      "recall@5" : 0.57792207792207784,
+      "shown" : 104,
+      "shown_irrelevant" : 37
+    },
+    {
+      "config" : "B 标签 + 图中文字",
+      "mrr" : 0.81590909090909092,
+      "precision@5" : 0.57272727272727264,
+      "recall@5" : 0.60822510822510822,
+      "shown" : 107,
+      "shown_irrelevant" : 38
+    },
+    {
+      "config" : "C 标签 + 文字 + 词典扩展（接入前）",
+      "mrr" : 0.8085016835016835,
+      "precision@5" : 0.60909090909090902,
+      "recall@5" : 0.65746753246753242,
+      "shown" : 120,
+      "shown_irrelevant" : 47
+    },
+    {
+      "config" : "D C + MobileCLIP（接入后）",
+      "mrr" : 0.93181818181818177,
+      "precision@5" : 0.74545454545454537,
+      "recall@5" : 0.86352813852813881,
+      "shown" : 106,
+      "shown_irrelevant" : 17
+    },
+    {
+      "config" : "E 只用 MobileCLIP（对照）",
+      "mrr" : 0.93181818181818177,
+      "precision@5" : 0.77272727272727271,
+      "recall@5" : 0.89307359307359324
+    }
+  ],
+  "thresholds" : {
+    "min_similarity" : 0.18000000715255737,
+    "min_z" : 2.5
+  }
+}
