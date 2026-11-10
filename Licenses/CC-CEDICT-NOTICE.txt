@@ -1,0 +1,33 @@
+CC-CEDICT notice for ImageSearch/Resources/cedict-glossary.tsv
+
+The glossary is derived from the CC-CEDICT release dated 2026-11-09T04:23:50Z. Header of that release:
+
+CC-CEDICT
+Community maintained free Chinese-English dictionary.
+
+Published by MDBG
+
+License:
+Creative Commons Attribution-ShareAlike 4.0 International License
+https://creativecommons.org/licenses/by-sa/4.0/
+
+Referenced works:
+CEDICT - Copyright (C) 1997, 1998 Paul Andrew Denisowski
+
+CC-CEDICT can be downloaded from:
+https://www.mdbg.net/chinese/dictionary?page=cc-cedict
+
+Additions and corrections can be sent through:
+https://cc-cedict.org/editor/editor.php
+
+For more information about CC-CEDICT see:
+https://cc-cedict.org/wiki/
+
+
+Changes made for this project (Tools/make_glossary.py): only simplified headwords of two or more
+characters are kept, each with a single cleaned English gloss (common-noun senses preferred; cross-references,
+variants, surnames and classifiers skipped; pinyin, Chinese characters, leading notes and diacritics removed;
+glosses cut at the first comma, semicolon or parenthesis, and long glosses shortened).
+
+The glossary is distributed under the same license:
+Creative Commons Attribution-ShareAlike 4.0 International, https://creativecommons.org/licenses/by-sa/4.0/
