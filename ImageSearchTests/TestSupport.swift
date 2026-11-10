@@ -18,8 +18,8 @@ enum Fixture {
     }
 
     static func record(_ id: String, labels: [String: Float] = [:], ocr: String = "",
-                       faces: Int = 0, flags: RecordFlags = []) -> ImageRecord {
-        ImageRecord(id: id, source: .photoLibrary, sourceModificationDate: nil,
+                       faces: Int = 0, flags: RecordFlags = [], modified: Date? = nil) -> ImageRecord {
+        ImageRecord(id: id, source: .photoLibrary, sourceModificationDate: modified,
                     labels: labels.map { LabelScore(id: $0.key, confidence: $0.value) }
                         .sorted { $0.confidence > $1.confidence },
                     ocrText: ocr, faceCount: faces, flags: flags, pixelWidth: 100, pixelHeight: 100,

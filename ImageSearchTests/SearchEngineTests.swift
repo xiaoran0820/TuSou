@@ -16,7 +16,8 @@ struct SearchEngineTests {
         ])
         #expect(out.hits.map(\.id) == ["b", "a"])
         #expect(!out.isLowConfidence)
-        #expect(out.hits.first?.reasons == ["猫 90%"])
+        // 写明是置信度，不是搜索相关度
+        #expect(out.hits.first?.reasons == ["猫 · 置信度 90%"])
     }
 
     @Test("没有高置信度结果时放宽阈值，并标为「可能相关」")
@@ -142,5 +143,17 @@ struct IncompleteAnalysisTests {
     @Test("识别都跑成时不报告")
     func noNoticeWhenEverythingRan() {
         #expect(F.search("合影", [F.record("a", faces: 0), F.record("b", faces: 5)]).incomplete.isEmpty)
+    }
+
+    @Test("还没建好索引的、读取失败的图片分开计数，不算进「没跑成」，也不当成「不匹配」")
+    func pendingAndUnreadableCountedSeparately() {
+        let records = [F.record("cat", labels: ["cat": 0.9]), F.record("broken", flags: .analysisFailed)]
+        let out = SearchEngine().search(query: "猫", ids: ["cat", "broken", "notYet1", "notYet2"],
+                                        records: Dictionary(uniqueKeysWithValues: records.map { ($0.id, $0) }),
+                                        metas: [:], now: F.now, calendar: F.calendar)
+        #expect(out.hits.map(\.id) == ["cat"])
+        #expect(out.pendingCount == 2)
+        #expect(out.unreadableCount == 1)
+        #expect(out.incomplete.isEmpty)
     }
 }
