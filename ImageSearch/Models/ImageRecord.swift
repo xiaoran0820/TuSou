@@ -56,6 +56,10 @@ struct ImageRecord: Sendable, Identifiable, Hashable {
     var pixelHeight: Int
     var analyzerVersion: Int
     var indexedAt: Date
+    /// MobileCLIP 的图片向量（512 维单位向量）；没有模型或还没算时为 nil
+    var clipEmbedding: [Float]?
+    /// 生成上面向量的模型；换了模型就要重算
+    var clipModel: String?
 
     // —— 以下为检索用的派生数据，加载时计算，不存库 ——
     private(set) var labelMap: [String: Float] = [:]
@@ -64,7 +68,7 @@ struct ImageRecord: Sendable, Identifiable, Hashable {
 
     init(id: String, source: ImageSourceKind, sourceModificationDate: Date?, labels: [LabelScore],
          ocrText: String, faceCount: Int, flags: RecordFlags, pixelWidth: Int, pixelHeight: Int,
-         analyzerVersion: Int, indexedAt: Date) {
+         analyzerVersion: Int, indexedAt: Date, clipEmbedding: [Float]? = nil, clipModel: String? = nil) {
         self.id = id
         self.source = source
         self.sourceModificationDate = sourceModificationDate
@@ -76,8 +80,13 @@ struct ImageRecord: Sendable, Identifiable, Hashable {
         self.pixelHeight = pixelHeight
         self.analyzerVersion = analyzerVersion
         self.indexedAt = indexedAt
+        self.clipEmbedding = clipEmbedding
+        self.clipModel = clipModel
         rebuildDerived()
     }
+
+    /// 是否已经有指定模型算出的向量
+    func hasEmbedding(from model: String) -> Bool { clipModel == model && clipEmbedding != nil }
 
     mutating func rebuildDerived() {
         var map: [String: Float] = [:]
