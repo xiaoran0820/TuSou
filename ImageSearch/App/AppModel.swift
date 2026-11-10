@@ -9,8 +9,12 @@ import UIKit
 final class AppModel {
     enum Tab: Hashable { case search, imported, settings }
 
+    /// MobileCLIP 的状态：加载中 / 可用 / 不可用（模型文件不在 App 里，或这台设备跑不了）
+    enum SemanticStatus: Equatable { case loading, ready, unavailable }
+
     var tab: Tab = .search
     private(set) var photoStatus: PHAuthorizationStatus = PhotoLibraryService.authorizationStatus
+    private(set) var semanticStatus: SemanticStatus = .loading
 
     let imports: ImportedImageStore
     let engine: IndexingEngine
@@ -33,7 +37,14 @@ final class AppModel {
         guard !started, !Self.isHostingUnitTests else { return }
         started = true
         Task.detached(priority: .utility) { SemanticExpander.shared.warmUp() }
+        Task.detached(priority: .utility) { _ = Glossary.shared.count }   // 中英对照表约 10 万条，提前在后台读好
+        // MobileCLIP 和已有索引同时加载；模型好了以后，新分析的图片顺带算向量，已有的图片补算向量
+        let clipLoad = Task.detached(priority: .userInitiated) { MobileCLIP.load() }
         await engine.bootstrap()
+        let clip = await clipLoad.value
+        semanticStatus = clip == nil ? .unavailable : .ready
+        search.setTextEmbedder(clip)
+        engine.setEmbedder(clip)
     }
 
     func requestPhotoAccess() async {
@@ -71,14 +82,28 @@ final class AppModel {
     /// 详情页需要的图片列表（与当前所在页面一致，可左右翻页）
     func ids(for context: GridContext) -> [String] {
         switch context {
-        case .results: return search.outcome.hits.map(\.id)
+        case .results: return search.showsAllHits ? search.outcome.hits.map(\.id) : search.outcome.primaryHits.map(\.id)
+        case .partialResults: return search.outcome.collapsedHits.map(\.id)
         case .all: return engine.orderedIDs
-        case .imported: return imports.items.map(\.id)
+        case .imported: return importedItems.map(\.id)
         }
+    }
+
+    /// 「导入」页的顺序：平常按导入时间倒序；评测模式按文件名排（IMG_01、IMG_02 …），方便对照编号
+    var importedItems: [ImportedImageStore.Item] {
+        guard search.evalMode else { return imports.items }
+        return imports.items.sorted { $0.originalName.localizedStandardCompare($1.originalName) == .orderedAscending }
+    }
+
+    /// 评测模式下缩略图左上角显示的编号：导入图片的文件名去掉扩展名；相册照片没有
+    func evalNames() -> [String: String] {
+        Dictionary(imports.items.map { ($0.id, ImportedImageStore.displayStem(of: $0.originalName)) },
+                   uniquingKeysWith: { a, _ in a })
     }
 }
 
-enum GridContext: Hashable { case results, all, imported }
+/// results：搜索结果主列表；partialResults：展开后的「只符合部分条件」
+enum GridContext: Hashable { case results, partialResults, all, imported }
 
 struct DetailRoute: Hashable {
     let context: GridContext
