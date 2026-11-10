@@ -1,0 +1,692 @@
+[
+ {
+  "query": "人",
+  "categories": [
+   "person"
+  ]
+ },
+ {
+  "query": "自行车",
+  "categories": [
+   "bicycle"
+  ]
+ },
+ {
+  "query": "汽车",
+  "categories": [
+   "car"
+  ]
+ },
+ {
+  "query": "摩托车",
+  "categories": [
+   "motorcycle"
+  ]
+ },
+ {
+  "query": "飞机",
+  "categories": [
+   "airplane"
+  ]
+ },
+ {
+  "query": "公交车",
+  "categories": [
+   "bus"
+  ]
+ },
+ {
+  "query": "火车",
+  "categories": [
+   "train"
+  ]
+ },
+ {
+  "query": "卡车",
+  "categories": [
+   "truck"
+  ]
+ },
+ {
+  "query": "船",
+  "categories": [
+   "boat"
+  ]
+ },
+ {
+  "query": "红绿灯",
+  "categories": [
+   "traffic light"
+  ]
+ },
+ {
+  "query": "消防栓",
+  "categories": [
+   "fire hydrant"
+  ]
+ },
+ {
+  "query": "停车标志",
+  "categories": [
+   "stop sign"
+  ]
+ },
+ {
+  "query": "停车计时器",
+  "categories": [
+   "parking meter"
+  ]
+ },
+ {
+  "query": "长椅",
+  "categories": [
+   "bench"
+  ]
+ },
+ {
+  "query": "鸟",
+  "categories": [
+   "bird"
+  ]
+ },
+ {
+  "query": "猫",
+  "categories": [
+   "cat"
+  ]
+ },
+ {
+  "query": "狗",
+  "categories": [
+   "dog"
+  ]
+ },
+ {
+  "query": "马",
+  "categories": [
+   "horse"
+  ]
+ },
+ {
+  "query": "羊",
+  "categories": [
+   "sheep"
+  ]
+ },
+ {
+  "query": "牛",
+  "categories": [
+   "cow"
+  ]
+ },
+ {
+  "query": "大象",
+  "categories": [
+   "elephant"
+  ]
+ },
+ {
+  "query": "熊",
+  "categories": [
+   "bear"
+  ]
+ },
+ {
+  "query": "斑马",
+  "categories": [
+   "zebra"
+  ]
+ },
+ {
+  "query": "长颈鹿",
+  "categories": [
+   "giraffe"
+  ]
+ },
+ {
+  "query": "背包",
+  "categories": [
+   "backpack"
+  ]
+ },
+ {
+  "query": "雨伞",
+  "categories": [
+   "umbrella"
+  ]
+ },
+ {
+  "query": "手提包",
+  "categories": [
+   "handbag"
+  ]
+ },
+ {
+  "query": "领带",
+  "categories": [
+   "tie"
+  ]
+ },
+ {
+  "query": "行李箱",
+  "categories": [
+   "suitcase"
+  ]
+ },
+ {
+  "query": "飞盘",
+  "categories": [
+   "frisbee"
+  ]
+ },
+ {
+  "query": "滑雪板",
+  "categories": [
+   "skis"
+  ]
+ },
+ {
+  "query": "单板滑雪",
+  "categories": [
+   "snowboard"
+  ]
+ },
+ {
+  "query": "球",
+  "categories": [
+   "sports ball"
+  ]
+ },
+ {
+  "query": "风筝",
+  "categories": [
+   "kite"
+  ]
+ },
+ {
+  "query": "棒球棒",
+  "categories": [
+   "baseball bat"
+  ]
+ },
+ {
+  "query": "棒球手套",
+  "categories": [
+   "baseball glove"
+  ]
+ },
+ {
+  "query": "滑板",
+  "categories": [
+   "skateboard"
+  ]
+ },
+ {
+  "query": "冲浪板",
+  "categories": [
+   "surfboard"
+  ]
+ },
+ {
+  "query": "网球拍",
+  "categories": [
+   "tennis racket"
+  ]
+ },
+ {
+  "query": "瓶子",
+  "categories": [
+   "bottle"
+  ]
+ },
+ {
+  "query": "酒杯",
+  "categories": [
+   "wine glass"
+  ]
+ },
+ {
+  "query": "杯子",
+  "categories": [
+   "cup"
+  ]
+ },
+ {
+  "query": "叉子",
+  "categories": [
+   "fork"
+  ]
+ },
+ {
+  "query": "刀",
+  "categories": [
+   "knife"
+  ]
+ },
+ {
+  "query": "勺子",
+  "categories": [
+   "spoon"
+  ]
+ },
+ {
+  "query": "碗",
+  "categories": [
+   "bowl"
+  ]
+ },
+ {
+  "query": "香蕉",
+  "categories": [
+   "banana"
+  ]
+ },
+ {
+  "query": "苹果",
+  "categories": [
+   "apple"
+  ]
+ },
+ {
+  "query": "三明治",
+  "categories": [
+   "sandwich"
+  ]
+ },
+ {
+  "query": "橙子",
+  "categories": [
+   "orange"
+  ]
+ },
+ {
+  "query": "西兰花",
+  "categories": [
+   "broccoli"
+  ]
+ },
+ {
+  "query": "胡萝卜",
+  "categories": [
+   "carrot"
+  ]
+ },
+ {
+  "query": "热狗",
+  "categories": [
+   "hot dog"
+  ]
+ },
+ {
+  "query": "披萨",
+  "categories": [
+   "pizza"
+  ]
+ },
+ {
+  "query": "甜甜圈",
+  "categories": [
+   "donut"
+  ]
+ },
+ {
+  "query": "蛋糕",
+  "categories": [
+   "cake"
+  ]
+ },
+ {
+  "query": "椅子",
+  "categories": [
+   "chair"
+  ]
+ },
+ {
+  "query": "沙发",
+  "categories": [
+   "couch"
+  ]
+ },
+ {
+  "query": "盆栽",
+  "categories": [
+   "potted plant"
+  ]
+ },
+ {
+  "query": "床",
+  "categories": [
+   "bed"
+  ]
+ },
+ {
+  "query": "餐桌",
+  "categories": [
+   "dining table"
+  ]
+ },
+ {
+  "query": "马桶",
+  "categories": [
+   "toilet"
+  ]
+ },
+ {
+  "query": "电视",
+  "categories": [
+   "tv"
+  ]
+ },
+ {
+  "query": "笔记本电脑",
+  "categories": [
+   "laptop"
+  ]
+ },
+ {
+  "query": "鼠标",
+  "categories": [
+   "mouse"
+  ]
+ },
+ {
+  "query": "遥控器",
+  "categories": [
+   "remote"
+  ]
+ },
+ {
+  "query": "键盘",
+  "categories": [
+   "keyboard"
+  ]
+ },
+ {
+  "query": "手机",
+  "categories": [
+   "cell phone"
+  ]
+ },
+ {
+  "query": "微波炉",
+  "categories": [
+   "microwave"
+  ]
+ },
+ {
+  "query": "烤箱",
+  "categories": [
+   "oven"
+  ]
+ },
+ {
+  "query": "烤面包机",
+  "categories": [
+   "toaster"
+  ]
+ },
+ {
+  "query": "水槽",
+  "categories": [
+   "sink"
+  ]
+ },
+ {
+  "query": "冰箱",
+  "categories": [
+   "refrigerator"
+  ]
+ },
+ {
+  "query": "书",
+  "categories": [
+   "book"
+  ]
+ },
+ {
+  "query": "钟",
+  "categories": [
+   "clock"
+  ]
+ },
+ {
+  "query": "花瓶",
+  "categories": [
+   "vase"
+  ]
+ },
+ {
+  "query": "剪刀",
+  "categories": [
+   "scissors"
+  ]
+ },
+ {
+  "query": "泰迪熊",
+  "categories": [
+   "teddy bear"
+  ]
+ },
+ {
+  "query": "吹风机",
+  "categories": [
+   "hair drier"
+  ]
+ },
+ {
+  "query": "牙刷",
+  "categories": [
+   "toothbrush"
+  ]
+ },
+ {
+  "query": "餐桌 人",
+  "categories": [
+   "dining table",
+   "person"
+  ]
+ },
+ {
+  "query": "椅子 人",
+  "categories": [
+   "chair",
+   "person"
+  ]
+ },
+ {
+  "query": "椅子 餐桌",
+  "categories": [
+   "chair",
+   "dining table"
+  ]
+ },
+ {
+  "query": "杯子 餐桌",
+  "categories": [
+   "cup",
+   "dining table"
+  ]
+ },
+ {
+  "query": "汽车 人",
+  "categories": [
+   "car",
+   "person"
+  ]
+ },
+ {
+  "query": "人 雨伞",
+  "categories": [
+   "person",
+   "umbrella"
+  ]
+ },
+ {
+  "query": "碗 餐桌",
+  "categories": [
+   "bowl",
+   "dining table"
+  ]
+ },
+ {
+  "query": "杯子 人",
+  "categories": [
+   "cup",
+   "person"
+  ]
+ },
+ {
+  "query": "长椅 人",
+  "categories": [
+   "bench",
+   "person"
+  ]
+ },
+ {
+  "query": "手提包 人",
+  "categories": [
+   "handbag",
+   "person"
+  ]
+ },
+ {
+  "query": "沙发 人",
+  "categories": [
+   "couch",
+   "person"
+  ]
+ },
+ {
+  "query": "摩托车 人",
+  "categories": [
+   "motorcycle",
+   "person"
+  ]
+ },
+ {
+  "query": "人 网球拍",
+  "categories": [
+   "person",
+   "tennis racket"
+  ]
+ },
+ {
+  "query": "椅子 沙发",
+  "categories": [
+   "chair",
+   "couch"
+  ]
+ },
+ {
+  "query": "人 披萨",
+  "categories": [
+   "person",
+   "pizza"
+  ]
+ },
+ {
+  "query": "碗 人",
+  "categories": [
+   "bowl",
+   "person"
+  ]
+ },
+ {
+  "query": "餐桌 披萨",
+  "categories": [
+   "dining table",
+   "pizza"
+  ]
+ },
+ {
+  "query": "人 卡车",
+  "categories": [
+   "person",
+   "truck"
+  ]
+ },
+ {
+  "query": "瓶子 人",
+  "categories": [
+   "bottle",
+   "person"
+  ]
+ },
+ {
+  "query": "人 冲浪板",
+  "categories": [
+   "person",
+   "surfboard"
+  ]
+ },
+ {
+  "query": "马 人",
+  "categories": [
+   "horse",
+   "person"
+  ]
+ },
+ {
+  "query": "蛋糕 餐桌",
+  "categories": [
+   "cake",
+   "dining table"
+  ]
+ },
+ {
+  "query": "人 电视",
+  "categories": [
+   "person",
+   "tv"
+  ]
+ },
+ {
+  "query": "蛋糕 人",
+  "categories": [
+   "cake",
+   "person"
+  ]
+ },
+ {
+  "query": "汽车 卡车",
+  "categories": [
+   "car",
+   "truck"
+  ]
+ },
+ {
+  "query": "椅子 电视",
+  "categories": [
+   "chair",
+   "tv"
+  ]
+ },
+ {
+  "query": "瓶子 餐桌",
+  "categories": [
+   "bottle",
+   "dining table"
+  ]
+ },
+ {
+  "query": "人 领带",
+  "categories": [
+   "person",
+   "tie"
+  ]
+ },
+ {
+  "query": "狗 人",
+  "categories": [
+   "dog",
+   "person"
+  ]
+ },
+ {
+  "query": "床 人",
+  "categories": [
+   "bed",
+   "person"
+  ]
+ }
+]
