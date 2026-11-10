@@ -1,11 +1,16 @@
-# Xcode
+# MobileCLIP model files: about 190 MB, larger than GitHub's file size limit, and licensed for research use only.
+# They come from Apple's apple/coreml-mobileclip repository on Hugging Face (see ThirdPartyNotices.md).
+ImageSearch/MLModels/*.mlpackage
+
+# Evaluation images: downloaded by Evaluation/fetch_images.py; each keeps its own license (Evaluation/image_credits.tsv).
+Evaluation/images/
+
+# Xcode and macOS
 xcuserdata/
 *.xcuserstate
-build/
 DerivedData/
-*.ipa
-*.dSYM.zip
-*.dSYM
-
-# macOS
+build/
 .DS_Store
+
+# Round-0 test photos are personal photos: keep them out of the repository
+eval/images/
