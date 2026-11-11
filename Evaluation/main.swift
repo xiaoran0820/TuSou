@@ -1,8 +1,10 @@
 // 检索效果评测：在 Mac 上用 App 的同一套识别（Vision + MobileCLIP）和检索代码，
 // 对评测集里的每个查询比较五种方案的 Precision@5、Recall@5 和 MRR。
 //
-// 用法：evaluate <图片目录> <queries.json> <编译好的 MobileCLIP 模型目录> <App 资源目录> [结果 JSON]
+// 用法：evaluate <图片目录> <queries.json> <编译好的 MobileCLIP 模型目录> <App 资源目录> [结果 JSON] [译文表.tsv]
 // 图片 id 用文件名；文件名匹配不参与（文件名里有类别名，会泄露答案）。
+// 译文表每行「中文<TAB>英文」，是系统翻译对 SearchEngine.textForTranslation 给出的文本的译文（Evaluation/translate 生成）。
+// 给了译文表，方案 D、E 就按 App 开着「整句翻译中文查询」时的方式检索；不给就是逐词翻译。
 
 import CoreGraphics
 import Foundation
@@ -46,6 +48,14 @@ let resources = URL(fileURLWithPath: args[4])
 
 let dictionary = try LabelDictionary(contentsOf: resources.appendingPathComponent("LabelDictionary.txt"))
 let glossary = (try? Glossary(contentsOf: resources.appendingPathComponent("cedict-glossary.tsv"))) ?? Glossary(entries: [:])
+var translations: [String: String] = [:]
+if args.count > 6 {
+    for line in try String(contentsOfFile: args[6], encoding: .utf8).split(separator: "\n") where !line.hasPrefix("#") {
+        let parts = line.split(separator: "\t", omittingEmptySubsequences: false).map(String.init)
+        if parts.count >= 2, !parts[1].isEmpty { translations[parts[0]] = parts[1] }
+    }
+    print("译文表：\(translations.count) 条")
+}
 guard let tokenizer = CLIPTokenizer(vocabURL: resources.appendingPathComponent("clip-vocab.json"),
                                     mergesURL: resources.appendingPathComponent("clip-merges.txt")),
       let clip = MobileCLIP(imageModelURL: modelsDir.appendingPathComponent("mobileclip_s2_image.mlmodelc"),
@@ -97,9 +107,12 @@ let configs: [(name: String, options: SearchOptions?)] = [
 func ranking(_ query: String, _ options: SearchOptions?) -> (ids: [String], prompt: String?, shown: [String]?) {
     let base = SearchEngine(dictionary: dictionary, expander: .shared, textEmbedder: clip, options: options ?? .all,
                             glossary: glossary)
+    // 整句翻译：只有用到 MobileCLIP 的方案才有要翻的文本
+    let translation = base.textForTranslation(query).flatMap { translations[$0] }
     guard let options else {
         // 纯向量检索：按相似度给全部图片排序，不设阈值
-        guard let prompt = base.semanticPrompt(for: base.plan(for: query), query: query),
+        guard let prompt = base.semanticPrompt(for: base.plan(for: query), query: query,
+                                               translation: SearchEngine.cleanedTranslation(translation)),
               let q = clip.embed(text: prompt) else { return ([], nil, nil) }
         let sorted = ids.sorted {
             MobileCLIP.similarity(records[$0]!.clipEmbedding ?? [], q) > MobileCLIP.similarity(records[$1]!.clipEmbedding ?? [], q)
@@ -107,7 +120,8 @@ func ranking(_ query: String, _ options: SearchOptions?) -> (ids: [String], prom
         return (sorted, prompt, nil)
     }
     let engine = SearchEngine(dictionary: dictionary, expander: .shared, textEmbedder: clip, options: options, glossary: glossary)
-    let out = engine.search(query: query, ids: ids, records: records, metas: metas)
+    let out = engine.search(query: query, ids: ids, records: records, metas: metas,
+                            translation: options.semantic ? translation : nil)
     return (out.hits.map(\.id), out.semanticPrompt, out.primaryHits.map(\.id))
 }
 
@@ -136,6 +150,7 @@ for q in queries {
         }
         row[String(config.name.prefix(1))] = entry
         if k == 3 { row["prompt"] = r.prompt ?? NSNull() }
+        if k == 4 { row["prompt_e"] = r.prompt ?? NSNull() }
     }
     print(line)
     report.append(row)
@@ -161,7 +176,7 @@ print(String(format: "\n方案 D 的单次检索：中位数 %.1f ms，最慢 %.
 
 if args.count > 5 {
     let result: [String: Any] = [
-        "images": ids.count, "queries": queries.count, "model": clip.modelID,
+        "images": ids.count, "queries": queries.count, "model": clip.modelID, "sentence_translations": translations.count,
         "thresholds": ["min_similarity": SearchEngine.semanticMinSimilarity, "min_z": SearchEngine.semanticMinZ],
         "summary": summary, "per_query": report,
     ]

@@ -72,6 +72,7 @@
         ]
       },
       "prompt" : "a photo of adult cat",
+      "prompt_e" : "a photo of adult cat",
       "query" : "猫",
       "relevant" : [
         "cat_1.jpg",
@@ -152,6 +153,7 @@
         ]
       },
       "prompt" : "a photo of dog",
+      "prompt_e" : "a photo of dog",
       "query" : "狗",
       "relevant" : [
         "dog_1.jpg",
@@ -233,6 +235,7 @@
         ]
       },
       "prompt" : "a photo of beach sunset",
+      "prompt_e" : "a photo of beach sunset",
       "query" : "海边日落",
       "relevant" : [
         "beachsunset_2.jpg",
@@ -312,6 +315,7 @@
         ]
       },
       "prompt" : "a photo of birthday cake",
+      "prompt_e" : "a photo of birthday cake",
       "query" : "生日蛋糕",
       "relevant" : [
         "cake_1.jpg",
@@ -391,6 +395,7 @@
         ]
       },
       "prompt" : "a photo of snowy mountain",
+      "prompt_e" : "a photo of snowy mountain",
       "query" : "雪山",
       "relevant" : [
         "snowmountain_1.jpg",
@@ -470,6 +475,7 @@
         ]
       },
       "prompt" : "a photo of red car",
+      "prompt_e" : "a photo of red car",
       "query" : "红色的汽车",
       "relevant" : [
         "redcar_3.jpg",
@@ -547,6 +553,7 @@
         ]
       },
       "prompt" : "a photo of city at night",
+      "prompt_e" : "a photo of city at night",
       "query" : "夜晚的城市",
       "relevant" : [
         "citynight_1.jpg",
@@ -626,6 +633,7 @@
         ]
       },
       "prompt" : "a photo of cycling person",
+      "prompt_e" : "a photo of cycling person",
       "query" : "骑自行车的人",
       "relevant" : [
         "bicycle_1.jpg",
@@ -705,6 +713,7 @@
         ]
       },
       "prompt" : "a photo of street in the rain",
+      "prompt_e" : "a photo of street in the rain",
       "query" : "下雨的街道",
       "relevant" : [
         "rain_3.jpg",
@@ -777,6 +786,7 @@
         ]
       },
       "prompt" : "a photo of bowl noodles",
+      "prompt_e" : "a photo of bowl noodles",
       "query" : "一碗面条",
       "relevant" : [
         "noodles_3.jpg",
@@ -843,6 +853,7 @@
         ]
       },
       "prompt" : "a photo of flower",
+      "prompt_e" : "a photo of flower",
       "query" : "花",
       "relevant" : [
         "flowers_1.jpg",
@@ -909,6 +920,7 @@
         ]
       },
       "prompt" : "a photo of receipt",
+      "prompt_e" : "a photo of receipt",
       "query" : "发票",
       "relevant" : [
         "doc_invoice_cn.jpg",
@@ -978,6 +990,7 @@
         ]
       },
       "prompt" : "a photo of menu",
+      "prompt_e" : "a photo of menu",
       "query" : "菜单",
       "relevant" : [
         "menu_1.jpg",
@@ -1057,6 +1070,7 @@
         ]
       },
       "prompt" : "a photo of waterfall",
+      "prompt_e" : "a photo of waterfall",
       "query" : "瀑布",
       "relevant" : [
         "waterfall_1.jpg",
@@ -1137,6 +1151,7 @@
         ]
       },
       "prompt" : "a photo of hot air balloon",
+      "prompt_e" : "a photo of hot air balloon",
       "query" : "热气球",
       "relevant" : [
         "balloon_1.jpg",
@@ -1217,6 +1232,7 @@
         ]
       },
       "prompt" : "a photo of children playing",
+      "prompt_e" : "a photo of children playing",
       "query" : "小孩在玩耍",
       "relevant" : [
         "children_1.jpg",
@@ -1294,6 +1310,7 @@
         ]
       },
       "prompt" : "a photo of basketball",
+      "prompt_e" : "a photo of basketball",
       "query" : "篮球",
       "relevant" : [
         "basketball_1.jpg",
@@ -1373,6 +1390,7 @@
         ]
       },
       "prompt" : "a photo of red car",
+      "prompt_e" : "a photo of red car",
       "query" : "red car",
       "relevant" : [
         "redcar_3.jpg",
@@ -1450,6 +1468,7 @@
         ]
       },
       "prompt" : "a photo of dog on the beach",
+      "prompt_e" : "a photo of dog on the beach",
       "query" : "dog on the beach",
       "relevant" : [
         "dogbeach_1.jpg"
@@ -1525,6 +1544,7 @@
         ]
       },
       "prompt" : "a photo of city at night",
+      "prompt_e" : "a photo of city at night",
       "query" : "city at night",
       "relevant" : [
         "citynight_1.jpg",
@@ -1592,6 +1612,7 @@
         ]
       },
       "prompt" : "a photo of receipt",
+      "prompt_e" : "a photo of receipt",
       "query" : "receipt",
       "relevant" : [
         "doc_invoice_cn.jpg",
@@ -1662,6 +1683,7 @@
         ]
       },
       "prompt" : "a photo of bridge",
+      "prompt_e" : "a photo of bridge",
       "query" : "bridge",
       "relevant" : [
         "bridge_1.jpg",
@@ -1673,6 +1695,7 @@
     }
   ],
   "queries" : 22,
+  "sentence_translations" : 0,
   "summary" : [
     {
       "config" : "A 画面标签",
