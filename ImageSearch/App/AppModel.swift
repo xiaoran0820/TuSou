@@ -19,6 +19,8 @@ final class AppModel {
     let imports: ImportedImageStore
     let engine: IndexingEngine
     let search: SearchModel
+    /// iOS 自带的翻译（本机完成）：中文查询整句译成英文，交给 MobileCLIP
+    let translator: SystemTranslator
 
     @ObservationIgnored private var started = false
 
@@ -26,6 +28,9 @@ final class AppModel {
         imports = ImportedImageStore()
         engine = IndexingEngine(imports: imports)
         search = SearchModel(engine: engine)
+        translator = SystemTranslator()
+        search.translator = translator
+        translator.onChange = { [weak search] in search?.translationChanged() }
     }
 
     var canReadPhotos: Bool { PhotoLibraryService.canRead(photoStatus) }
@@ -38,6 +43,7 @@ final class AppModel {
         started = true
         Task.detached(priority: .utility) { SemanticExpander.shared.warmUp() }
         Task.detached(priority: .utility) { _ = Glossary.shared.count }   // 中英对照表约 10 万条，提前在后台读好
+        await translator.refreshStatus()
         // MobileCLIP 和已有索引同时加载；模型好了以后，新分析的图片顺带算向量，已有的图片补算向量
         let clipLoad = Task.detached(priority: .userInitiated) { MobileCLIP.load() }
         await engine.bootstrap()
@@ -52,11 +58,12 @@ final class AppModel {
         if canReadPhotos { engine.scheduleRescan() }
     }
 
-    /// 回到前台时刷新权限（用户可能去系统设置里改过）
+    /// 回到前台时刷新权限（用户可能去系统设置里改过）；翻译语言也可能刚下载好或被删掉
     func refreshPhotoStatus() {
         let old = photoStatus
         photoStatus = PhotoLibraryService.authorizationStatus
         if old != photoStatus { engine.scheduleRescan() }
+        if started { Task { await translator.refreshStatus() } }
     }
 
     func openSystemSettings() {

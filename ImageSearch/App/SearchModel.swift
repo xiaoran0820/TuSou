@@ -56,6 +56,9 @@ final class SearchModel {
         static let evalMode = "evalMode", mode = "evalSearchMode", importedOnly = "evalImportedOnly"
     }
 
+    /// 系统翻译：可用时，中文查询先整句译成英文再交给 MobileCLIP；不可用时照旧逐词翻译
+    @ObservationIgnored var translator: (any QueryTranslating)?
+
     @ObservationIgnored private let engine: IndexingEngine
     @ObservationIgnored private var textEmbedder: (any TextEmbedder)?
     @ObservationIgnored private var searchEngine = SearchEngine()
@@ -98,14 +101,23 @@ final class SearchModel {
             ? SearchEngine(textEmbedder: textEmbedder, options: SearchOptions(labels: true, text: true, expansion: true, semantic: false))
             : searchEngine
         lastRevisionRun = engine.revision
-        let result = await Task.detached(priority: .userInitiated) {
-            mode == .clipOnly ? se.rankBySimilarity(query: q, ids: ids, records: records)
-                              : se.search(query: q, ids: ids, records: records, metas: metas)
+        // 整句翻译：查询里描述画面的部分交给系统翻译；没有可用的翻译时是 nil，引擎照旧逐词拼描述
+        var translation: String?
+        if let translator, let text = se.textForTranslation(q) {
+            translation = await translator.english(for: text)
+            guard gen == generation else { return }   // 等翻译的时候用户已经输入了新内容
+        }
+        let result = await Task.detached(priority: .userInitiated) { [translation] in
+            mode == .clipOnly ? se.rankBySimilarity(query: q, ids: ids, records: records, translation: translation)
+                              : se.search(query: q, ids: ids, records: records, metas: metas, translation: translation)
         }.value
         guard gen == generation else { return }   // 用户已经输入了新内容
         outcome = result
         isSearching = false
     }
+
+    /// 系统翻译变得可用、不可用，或者开关变了：当前的查询重新搜一遍
+    func translationChanged() { rerun() }
 
     private func rerun() {
         lastRevisionRun = -1
