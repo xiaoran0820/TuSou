@@ -43,6 +43,27 @@ struct GlossaryTests {
         #expect(engine.semanticPrompt(for: plans, query: "富士山") == "a photo of Mt. Fuji")
     }
 
+    @Test("对照表里没有的地名收在地名表里：「太平山顶」整个成词，翻成 Victoria Peak，不再拆成「太平」+「山顶」逐词翻译")
+    func placeNames() {
+        let engine = SearchEngine(textEmbedder: FakeTextEmbedder())
+        func plans(_ q: String) -> [SearchEngine.TermPlan] { engine.plan(for: q, now: F.now, calendar: F.calendar) }
+        func prompt(_ q: String) -> String? { engine.semanticPrompt(for: plans(q), query: q) }
+        #expect(plans("太平山顶").map(\.term) == ["太平山顶"])
+        #expect(prompt("太平山顶") == "a photo of Victoria Peak")   // 原来是 a photo of peace and security hilltop
+        #expect(prompt("太平山") == "a photo of Victoria Peak")     // 原来是 a photo of peace and security mountain
+        #expect(plans("太平山顶").first?.labels.isEmpty == true)    // 有 MobileCLIP 时不拆出「山」去匹配所有的山
+        // 句子里的地名先整个切出来，不受分词边界影响：不先切的话，「太平山上」会分成「太平」+「山上」
+        #expect(plans("太平山上").map(\.term) == ["太平山"])
+        #expect(plans("太平山下").map(\.term) == ["太平山"])
+        #expect(plans("香港太平山顶").map(\.term) == ["香港", "太平山顶"])
+        #expect(prompt("太平山上的风景") == "a photo of Victoria Peak scenery")
+        #expect(prompt("太平山顶夜景") == "a photo of Victoria Peak at night")
+        // 表里没有的词不受影响
+        #expect(prompt("太平") == "a photo of peace and security")
+        #expect(prompt("山顶") == "a photo of hilltop")
+        #expect(prompt("富士山顶") == "a photo of Mt. Fuji")
+    }
+
     @Test("能整个拆成已知词的不被对照表合并：「串串狗」保留「狗」，照常用画面标签找狗")
     func keepsKnownParts() {
         let terms = QueryParser.parse("串串狗", dictionary: .shared, glossary: .shared, now: F.now, calendar: F.calendar)
