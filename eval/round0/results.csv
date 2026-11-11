@@ -1,0 +1,51 @@
+id,query,vision_top5,vision_hit,clip_top5,clip_hit,note
+q01,建筑,IMG_40;IMG_05;IMG_36;IMG_24;IMG_34,2,IMG_16;IMG_21;IMG_34;IMG_27;IMG_33,4,vison第一站出来的居然是牛排而且top5有3张都是食物；clip最后一张识别成晚霞
+q02,维多利亚港,,0,IMG_05;IMG_27;IMG_06;IMG_04;IMG_26,1,正确照片只有一张；clip准确识别
+q03,金紫荆广场,IMG_39,0,IMG_06;IMG_14;IMG_16;IMG_29;IMG_33,1,正确照片只有一张；clip准确识别；原来填的命中数：V 1；按标准答案应为 V 0
+q04,学校白色教学楼,IMG_05;IMG_34;IMG_27,0,IMG_16;IMG_17;IMG_33;IMG_07;IMG_18,1,正确照片只有一张；clip准确识别
+q05,东京银座街头,IMG_21,1,IMG_21,1,正确照片只有一张；都能准确识别
+q06,太平山顶,IMG_22,0,IMG_16;IMG_31;IMG_22;IMG_26;IMG_23,0,clip识别结果里有三张富士山可能是识别到描述中有山
+q07,晴空塔,IMG_16;IMG_22;IMG_34;IMG_20;IMG_04,1,IMG_34;IMG_22;IMG_33;IMG_21;IMG_16,1,正确照片只有一张；两种都命中了但是vison是排在第三个不够精准
+q08,人物,IMG_21;IMG_18;IMG_24;IMG_19;IMG_17,3,IMG_21;IMG_18;IMG_17;IMG_04;IMG_03,4,两者识别的图片里都含有人物；但是vison和clip都将本身是银座街头的照片放在第一个；原来填的命中数：V 5、C 5；按标准答案应为 V 3、C 4
+q09,海边沙滩上穿黑色衣服的男人和白色的伞,IMG_03;IMG_24;IMG_21;IMG_25;IMG_18,1,IMG_04;IMG_03;IMG_08;IMG_18;IMG_19,1,正确照片只有一张；但是这次vison准确的识别出来了并且精准放在第一位；但是clip将IMG03和IMG04搞混了
+q10,海边沙滩上穿黑色衣服的人打着一把黑伞,IMG_03;IMG_24;IMG_21;IMG_18;IMG_19,0,IMG_04;IMG_03;IMG_08;IMG_17;IMG_19,1,正确照片只有一张；这次是vison识别不出来了但是clip能识别出来
+q11,穿着制服戴着眼镜手里拿棒子的男人,IMG_08,1,IMG_08;IMG_09;IMG_17;IMG_19;IMG_18,1,两个都准确命中；但是clip提供了很多无关的内容
+q12,室内戴红色镜片墨镜的男生,IMG_09,1,IMG_09;IMG_08;IMG_19;IMG_18;IMG_01,1,正确照片只有一张；clip提供了过多的不符合要求的图片
+q13,夕阳下穿黑色短袖双手叉腰的男生,IMG_33;IMG_31,0,IMG_17;IMG_18;IMG_09;IMG_19;IMG_08,1,正确照片只有一张；clip准确识别
+q14,穿白衬衫把手放在后脑勺的男生,,0,IMG_18;IMG_08;IMG_09;IMG_17;IMG_19,1,clip准确识别；vison无结果
+q15,夜里背着浅色双肩包的男生,IMG_19,1,IMG_19;IMG_18;IMG_17;IMG_08;IMG_01,1,正确照片只有一张；二者都准确识别
+q16,飞机,IMG_02;IMG_11;IMG_12;IMG_10,4,IMG_12;IMG_10;IMG_11;IMG_02;IMG_33,4,正确照片只有四张；二者都能准确识别
+q17,日本航空 JAL 东京迪士尼海洋25周年彩绘机,IMG_25;IMG_24,0,IMG_02;IMG_30;IMG_12;IMG_11;IMG_22,1,正确照片只有一张；clip准确识别但是vison返回了两只狗的照片
+q18,日本春秋航空 SPRING JAPAN 绿色尾翼的波音737-800,,0,IMG_02;IMG_12;IMG_26;IMG_11;IMG_10,1,正确照片只有一张；clip把正确结果识别在第五位其中第三位还是一张富士山的照片与飞机无关
+q19,中国东方航空的空客A330-300客机,,0,IMG_12;IMG_11;IMG_02;IMG_10;IMG_29,2,正确结果有两张；clip精准命中
+q20,花,IMG_20;IMG_15,2,IMG_14;IMG_20;IMG_13;IMG_15;IMG_17,4,正确结果有四张；vison只命中两张
+q21,石头旁边成丛的白色小花,IMG_13;IMG_23;IMG_20;IMG_15,1,IMG_17;IMG_08;IMG_13;IMG_18;IMG_19,1,正确结果只有一张；vison精准命中；clip识别结果在第三位哦
+q22,深绿色叶子间的两朵粉色小花,IMG_15;IMG_20;IMG_14;IMG_13,1,IMG_14;IMG_20;IMG_17;IMG_18;IMG_23,1,正确结果只有一张；但是vison识别在第三位
+q23,告示牌旁的黄色小花,IMG_20;IMG_15,1,IMG_17;IMG_08;IMG_18;IMG_15;IMG_19,1,两者都能识别而且都不够精准
+q24,蓝天背景下的一朵粉色玫瑰,IMG_20;IMG_16;IMG_22;IMG_33;IMG_32,1,IMG_20;IMG_14;IMG_33;IMG_18;IMG_23,1,
+q25,动物,IMG_25;IMG_24,2,IMG_23;IMG_07;IMG_28;IMG_36;IMG_29,3,两者识别都不够准确；vison只识别出了两只狗；clip只识别出了鸟、羊和虫子
+q26,铁丝网后面的两只白山羊,IMG_22;IMG_35,0,IMG_07;IMG_32;IMG_35;IMG_28;IMG_10,1,正确结果只有一张；vison返回的结果是富士山和兰州拉面
+q27,站在水边岩石上的鸽子,IMG_13;IMG_23;IMG_22;IMG_04;IMG_24,1,IMG_23;IMG_26;IMG_04;IMG_13;IMG_33,1,正确结果只有一张；clip精准命中但是vison把正确图片识别在第二位
+q28,草地上的白色大狗,IMG_25;IMG_24;IMG_07;IMG_16;IMG_13,2,IMG_25;IMG_13;IMG_24;IMG_14;IMG_07,2,正确结果只有一张；原来填的命中数：V 1、C 1；按标准答案应为 V 2、C 2
+q29,海边草地上坐在一起的两只大狗,IMG_24;IMG_25;IMG_07;IMG_16;IMG_03,1,IMG_24;IMG_25;IMG_03;IMG_04;IMG_13,1,正确结果只有一张；两者都精准命中
+q30,趴在草地上的白色大狗,IMG_25;IMG_24;IMG_07;IMG_16;IMG_13,1,IMG_25;IMG_13;IMG_24;IMG_14;IMG_07,1,正确结果只有一张；二者都准确命中
+q31,白色板面接缝上的黑色昆虫,IMG_35,0,IMG_28;IMG_37;IMG_35;IMG_30;IMG_29,1,正确结果只有一张；vison返回了兰州拉面
+q32,自然风光,IMG_11;IMG_12;IMG_09,0,IMG_26;IMG_22;IMG_31;IMG_14;IMG_04,3,vison吧自然风光约等于成了灯光
+q33,远处的富士山,IMG_22,1,IMG_26;IMG_22;IMG_31;IMG_04;IMG_33,3,
+q34,蓝色海面远处的富士山,IMG_22;IMG_24;IMG_04;IMG_26;IMG_05,1,IMG_22;IMG_26;IMG_31;IMG_04;IMG_23,1,正确答案只有一张
+q35,暖色天空下隔海拍到的富士山和飞鸟,IMG_22;IMG_05;IMG_24;IMG_04;IMG_26,1,IMG_26;IMG_22;IMG_31;IMG_33;IMG_23,1,正确答案只有一张但是vison把它识别在了第五位
+q36,橙色天空下电线后方的富士山,IMG_32;IMG_22;IMG_31;IMG_33;IMG_16,1,IMG_31;IMG_26;IMG_22;IMG_33;IMG_32,1,正确答案只有一张vison排在了第三位
+q37,灰色云层中电线杆上方的彩虹,IMG_32;IMG_25;IMG_33;IMG_16;IMG_31,1,IMG_32;IMG_33;IMG_34;IMG_31;IMG_01,1,正确答案只有一张都准确识别
+q38,屋顶上方被晚霞染橙的云,IMG_33;IMG_32;IMG_16;IMG_21;IMG_24,1,IMG_33;IMG_31;IMG_26;IMG_32;IMG_17,1,正确答案只有一张都准确识别
+q39,夜间光影,IMG_11;IMG_12;IMG_09,0,IMG_01;IMG_34;IMG_17;IMG_19;IMG_33,3,正确答案只有一张clip准确识别；原来填的命中数：C 1；按标准答案应为 C 3
+q40,黑暗中横向拉长的彩色光轨,IMG_11;IMG_12;IMG_09,0,IMG_01;IMG_32;IMG_34;IMG_33;IMG_18,1,结果同上一条
+q41,食物,IMG_29;IMG_37;IMG_35;IMG_38;IMG_36,5,IMG_36;IMG_29;IMG_37;IMG_35;IMG_39,5,
+q42,香港榕哥陈皮烧鹅饭,IMG_29;IMG_37;IMG_35;IMG_38;IMG_36,1,IMG_30;IMG_29;IMG_37;IMG_36;IMG_06,1,正确答案只有一张；vison正确识别可能是因为这次的四十张照片里只有一张是含有米饭的；clip的正确结果在第二位
+q43,香港美心双黄莲蓉月饼礼盒,,0,IMG_30;IMG_39;IMG_37;IMG_29;IMG_06,1,
+q44,陈作林陈记兰州牛肉拉面,IMG_35,1,IMG_35;IMG_37;IMG_30;IMG_29;IMG_40,1,
+q45,长白盘里撒了香料的烤肉串,IMG_29,0,IMG_36;IMG_37;IMG_40;IMG_29;IMG_38,1,vison返回了烧鹅饭
+q46,有红枣的砂锅火锅,IMG_37,1,IMG_37;IMG_30;IMG_29;IMG_35;IMG_36,1,两者都准确识别但是vison将火锅和砂锅约等于锅但是本次的测试样本里只有一张火锅照片
+q47,Eggslut 的两个鸡蛋汉堡,IMG_38;IMG_40,1,IMG_38;IMG_39;IMG_30;IMG_37;IMG_36,1,正确图片只有一张
+q48,日本麦当劳双层芝士汉堡和麦乐鸡,IMG_38,0,IMG_39;IMG_38;IMG_30;IMG_36;IMG_40,1,clip精准识别；vison把麦乐鸡约等于了家禽
+q49,两份冒热气的铁板牛排配意面和胡萝卜,IMG_35;IMG_40,1,IMG_40;IMG_30;IMG_37;IMG_35;IMG_29,1,只有clip精准识别出来了；vison识别在第二位
+q50,汉堡,IMG_38,1,IMG_38;IMG_39;IMG_01;IMG_36;IMG_29,2,正确答案有两个；vison只识别出来一个
