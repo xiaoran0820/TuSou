@@ -54,6 +54,23 @@ enum PromptLexicon {
         put("car", ["汽车", "车", "小汽车"]); put("bicycle", ["自行车", "单车"]); put("motorcycle", ["摩托车"])
         put("bus", ["公交车", "巴士"]); put("train", ["火车"]); put("airplane", ["飞机"]); put("boat", ["船"])
         put("hot air balloon", ["热气球"])
+        // 地名
+        for (name, en) in placeNames { m[name] = en }
         return m
     }()
+
+    /// 地名：中英对照表（CC-CEDICT）里没有、拆开逐词翻译又会翻错的。
+    /// 「太平山顶」原来被拆成「太平」+「山顶」，翻成 peace and security hilltop，MobileCLIP 找到的是别的山。
+    /// 这类地名的英文名没法按规则生成（换成拼音 Taiping Shan 也找不到），只能一个个收在这里；
+    /// 查询里出现时先整个切出来，见 QueryParser.segmentChinese。
+    /// 目前只有香港太平山这一个地方（两种写法）。别处也有叫太平山的山，这里按最常指的香港太平山处理
+    static let placeNames: [String: String] = [
+        "太平山顶": "Victoria Peak",
+        "太平山": "Victoria Peak",
+    ]
+
+    /// 长的在前：「太平山顶」先于「太平山」
+    static let placeNamesLongestFirst: [String] = placeNames.keys.sorted {
+        $0.count != $1.count ? $0.count > $1.count : $0 < $1
+    }
 }

@@ -156,6 +156,60 @@ enum QueryParser {
         return terms.filter { seen.insert($0).inserted }
     }
 
+    // MARK: - 整句翻译用的文本
+
+    /// 开头的「帮我」「给我」「我想」只有后面跟着「找、搜、查、看」时才是套话（「给新娘打伞的男人」里的「给」不是）
+    private static let leadingRequest = try! NSRegularExpression(pattern: "^请?(帮我|帮忙|给我|我想要?|我要)(?=[找搜查看])")
+    /// 开头单独成词的「找」「搜索」「所有」不是画面内容（「搜救犬」「显示器」是完整的词，不受影响）
+    private static let leadingFillers: Set<String> = [
+        "请", "找", "找找", "找到", "找出", "找一下", "搜", "搜索", "搜一下", "查找", "看看", "一下", "所有", "全部", "的",
+    ]
+    private static let photoWords: Set<String> = ["照片", "图片", "相片", "图像", "图"]
+    private static let trailingFillers: Set<String> = ["的", "拍", "拍的", "拍摄"]
+
+    /// 查询里描述画面的那部分，给系统翻译整句译成英文用：
+    /// 去掉日期表达式、removing 里的词（「截图」「收藏」这类照片属性）、开头的「帮我找」和结尾的「的照片」。
+    /// 「黑白照片」里的「照片」前面没有「的」，是画面内容，不去掉。
+    /// 地名表里的地名先换成表里的英文名（太平山顶夜景 → Victoria Peak 夜景），翻译时不会再被意译。
+    /// 没剩下内容时返回空字符串
+    static func descriptiveText(_ raw: String, removing words: [String] = [], now: Date = Date(),
+                                calendar: Calendar = .current) -> String {
+        var text = TextNormalizer.normalize(raw)
+        _ = extractDates(from: &text, now: now, calendar: calendar)
+        for w in words {
+            if let r = text.range(of: w) { text.replaceSubrange(r, with: " ") }
+        }
+        text = text.split(whereSeparator: \.isWhitespace).joined(separator: " ")
+        if let m = leadingRequest.firstMatch(in: text, range: NSRange(text.startIndex..., in: text)),
+           let r = Range(m.range, in: text) {
+            text.removeSubrange(r)
+        }
+        // 按词去掉开头和结尾的套话
+        let tokenizer = NLTokenizer(unit: .word)
+        tokenizer.string = text
+        tokenizer.setLanguage(.simplifiedChinese)
+        let ranges = tokenizer.tokens(for: text.startIndex..<text.endIndex)
+        let tokens = ranges.map { String(text[$0]) }
+        var first = 0, last = tokens.count - 1
+        while first <= last {
+            if leadingFillers.contains(tokens[first]) {
+                first += 1
+            } else if tokens[first] == "我", first < last, tokens[first + 1] == "的" {
+                first += 2      // 「我的猫」→ 猫
+            } else {
+                break
+            }
+        }
+        if last > first, photoWords.contains(tokens[last]), tokens[last - 1] == "的" { last -= 2 }   // 「的照片」
+        while last >= first, trailingFillers.contains(tokens[last]) { last -= 1 }
+        guard first <= last else { return "" }
+        text = String(text[ranges[first].lowerBound..<ranges[last].upperBound])
+        for name in PromptLexicon.placeNamesLongestFirst {
+            text = text.replacingOccurrences(of: name, with: " \(PromptLexicon.placeNames[name] ?? name) ")
+        }
+        return text.split(whereSeparator: \.isWhitespace).joined(separator: " ")
+    }
+
     // MARK: - 日期
 
     private static func extractDates(from text: inout String, now: Date, calendar: Calendar) -> [QueryTerm] {
@@ -250,6 +304,14 @@ enum QueryParser {
     static func segmentChinese(_ s: String, _ dict: LabelDictionary, glossary: Glossary = .shared) -> [String] {
         let isKnown: (String) -> Bool = { Self.isKnown($0, dict, glossary: glossary) }
         if isKnown(s) { return [s] }
+        // 地名表里的地名先整个切出来，两边剩下的照常分词。
+        // 否则「太平山上」会被分成「太平」+「山上」，地名又被拆开逐词翻译
+        for name in PromptLexicon.placeNamesLongestFirst {
+            guard let r = s.range(of: name) else { continue }
+            let before = String(s[..<r.lowerBound]), after = String(s[r.upperBound...])
+            return (before.isEmpty ? [] : segmentChinese(before, dict, glossary: glossary)) + [name]
+                + (after.isEmpty ? [] : segmentChinese(after, dict, glossary: glossary))
+        }
         let tokenizer = NLTokenizer(unit: .word)
         tokenizer.string = s
         tokenizer.setLanguage(.simplifiedChinese)

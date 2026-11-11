@@ -48,6 +48,8 @@ struct SearchOutcome: Sendable {
     let unreadableCount: Int
     /// 交给 MobileCLIP 比对画面的英文描述（没用到时为 nil）
     var semanticPrompt: String? = nil
+    /// 这句描述是系统翻译整句译出来的（否则是逐词拼出来的，或者查询本来就是英文）
+    var promptIsTranslated = false
 
     /// 同时符合全部检索词的结果（只有一个词时就是全部结果）
     var fullHits: [SearchHit] { hits.filter { $0.matchedTerms == termCount } }
@@ -211,9 +213,57 @@ struct SearchEngine: Sendable {
         return best.map { dictionary.englishName(for: $0.label) } ?? glossary.english(for: p.term)
     }
 
-    /// 给 MobileCLIP 的英文描述。全英文且不含日期的查询直接用原文（去掉 screenshot、favorite 这类照片属性词）；
+    /// 词数达到这个数，就算每个词都有现成的英文，也整句翻译：词和词的关系（谁在做什么、在哪里、有几个）逐词拼不出来。
+    /// 在 COCO 的 300 条中文短语上，取 3 和取 4 相比，对应的图排进前 5 名的从 52.0% 到 53.3%，其它评测结果不变
+    static let sentenceTranslationMinTerms = 3
+
+    /// 要交给系统翻译整句译成英文的中文：查询里描述画面的部分（不含日期和「截图」「收藏」这类照片属性）。
+    /// 不需要整句翻译时为 nil，照旧逐词拼描述：
+    /// - 没有 MobileCLIP，或者查询里没有中文；
+    /// - 只有一个词，而且逐词能翻出英文：系统翻译单个词没有上下文，容易翻错（「汉堡」→ Hamburg，「建筑」→ Construct）；
+    /// - 两个词，每个词在常用词表或标签词典里都有专门挑好的英文（「红色的汽车」「骑自行车的人」）。
+    /// 其余的整句翻译：有词逐词翻不出来、有词的英文只来自中英对照表（「小花」→ popular young actress）、或者有三个词以上
+    func textForTranslation(_ query: String, now: Date = Date(), calendar: Calendar = .current) -> String? {
+        guard options.semantic, textEmbedder != nil, TextNormalizer.containsCJK(query) else { return nil }
+        let plans = plan(for: query, now: now, calendar: calendar)
+        let descriptive = plans.filter { $0.date == nil && !$0.hasLibraryAttribute }
+        guard !descriptive.isEmpty else { return nil }
+        if descriptive.count == 1 {
+            guard descriptive[0].promptWord == nil else { return nil }
+        } else if descriptive.count < Self.sentenceTranslationMinTerms, descriptive.allSatisfy(hasCuratedEnglish) {
+            return nil
+        }
+        let text = QueryParser.descriptiveText(query, removing: plans.filter(\.hasLibraryAttribute).map(\.term),
+                                               now: now, calendar: calendar)
+        return TextNormalizer.containsCJK(text) ? text : nil
+    }
+
+    /// 这个词的英文是专门为找图挑好的：本来就是英文、在常用词表里、或者直接对应一个画面标签。
+    /// 只在中英对照表里查得到的不算（对照表每个词只留一个释义，不一定是找图时的意思）
+    private func hasCuratedEnglish(_ p: TermPlan) -> Bool {
+        !TextNormalizer.containsCJK(p.term) || PromptLexicon.english[p.term] != nil
+            || p.dictionaryLabels.contains { $0.weight >= 1.0 }
+    }
+
+    /// 系统翻译出来的英文整理成描述：去掉两头的标点和开头的「a photo of」。
+    /// 没有内容、或者还夹着中文（没翻出来）时返回 nil，检索退回逐词翻译
+    static func cleanedTranslation(_ raw: String?) -> String? {
+        guard let raw, !TextNormalizer.containsCJK(raw) else { return nil }
+        var t = raw.split(whereSeparator: \.isWhitespace).joined(separator: " ")
+            .trimmingCharacters(in: .punctuationCharacters.union(.whitespaces))
+        for prefix in ["a photo of ", "photo of ", "photos of ", "a picture of ", "picture of ", "pictures of ",
+                       "an image of ", "image of ", "images of "] where t.lowercased().hasPrefix(prefix) {
+            t = String(t.dropFirst(prefix.count))
+            break
+        }
+        return t.isEmpty ? nil : t
+    }
+
+    /// 给 MobileCLIP 的英文描述。有系统翻译的整句译文时直接用它；
+    /// 全英文且不含日期的查询直接用原文（去掉 screenshot、favorite 这类照片属性词）；
     /// 否则把能转成英文的词按原顺序拼起来
-    func semanticPrompt(for plans: [TermPlan], query: String) -> String? {
+    func semanticPrompt(for plans: [TermPlan], query: String, translation: String? = nil) -> String? {
+        if let translation { return "a photo of " + translation }
         if isWholeEnglish(plans, query: query) {
             let attributes = Set(plans.filter(\.hasLibraryAttribute).map { $0.term.lowercased() })
             let words = query.lowercased().split(whereSeparator: \.isWhitespace).map(String.init)
@@ -231,9 +281,10 @@ struct SearchEngine: Sendable {
         !TextNormalizer.containsCJK(query) && !plans.contains { $0.date != nil }
     }
 
-    /// 哪些检索词被描述覆盖（这些词可以由画面语义匹配来满足；日期、属性等仍要各自满足）
-    private func coveredTerms(_ plans: [TermPlan], query: String) -> [Bool] {
-        let whole = isWholeEnglish(plans, query: query)
+    /// 哪些检索词被描述覆盖（这些词可以由画面语义匹配来满足；日期、属性等仍要各自满足）。
+    /// 整句翻译时，描述画面的词都在译文里，包括逐词翻译时翻不出来的词
+    private func coveredTerms(_ plans: [TermPlan], query: String, translated: Bool = false) -> [Bool] {
+        let whole = translated || isWholeEnglish(plans, query: query)
         return plans.map { whole ? ($0.date == nil && !$0.hasLibraryAttribute) : $0.promptWord != nil }
     }
 
@@ -374,19 +425,22 @@ struct SearchEngine: Sendable {
 
     // MARK: - 打分排序
 
+    /// translation：系统翻译对 textForTranslation(query) 给出的整句译文；没有时为 nil，照旧逐词拼描述
     func search(query: String, ids: [String], records: [String: ImageRecord], metas: [String: ImageMeta],
-                now: Date = Date(), calendar: Calendar = .current) -> SearchOutcome {
+                translation: String? = nil, now: Date = Date(), calendar: Calendar = .current) -> SearchOutcome {
         let plans = plan(for: query, now: now, calendar: calendar)
         guard !plans.isEmpty else { return .empty(query) }
 
         // MobileCLIP：描述与画面的语义相似度
+        let translated = Self.cleanedTranslation(translation)
         var prompt: String?
         var semantic: [String: SemanticMatch] = [:]
-        if options.semantic, textEmbedder != nil, let p = semanticPrompt(for: plans, query: query) {
+        if options.semantic, textEmbedder != nil, let p = semanticPrompt(for: plans, query: query, translation: translated) {
             prompt = p
             semantic = semanticMatches(prompt: p, ids: ids, records: records)
         }
-        let covered = prompt == nil ? plans.map { _ in false } : coveredTerms(plans, query: query)
+        let covered = prompt == nil ? plans.map { _ in false }
+                                    : coveredTerms(plans, query: query, translated: translated != nil)
         let checks = termChecks(plans, covered: covered, ids: ids, records: records)
 
         var hits = rank(plans, covered: covered, semantic: semantic, termChecks: checks, ids: ids, records: records,
@@ -403,16 +457,18 @@ struct SearchEngine: Sendable {
         return SearchOutcome(query: query, interpretations: interpretations(of: plans, covered: covered), hits: hits,
                              termCount: plans.count, fullMatchCount: full, isLowConfidence: lowConfidence,
                              incomplete: cov.incomplete, pendingCount: cov.pending, unreadableCount: cov.unreadable,
-                             semanticPrompt: prompt)
+                             semanticPrompt: prompt, promptIsTranslated: prompt != nil && translated != nil)
     }
 
     /// 评测用（第 0 轮「只用 MobileCLIP」）：把每张有向量的图按与描述的相似度从高到低全部列出，不设门槛，
     /// 和评测程序的方案 E 一样。查询翻不成英文描述时没有结果
     func rankBySimilarity(query: String, ids: [String], records: [String: ImageRecord],
-                          now: Date = Date(), calendar: Calendar = .current) -> SearchOutcome {
+                          translation: String? = nil, now: Date = Date(), calendar: Calendar = .current) -> SearchOutcome {
         let pending = ids.filter { records[$0] == nil }.count
+        let translated = Self.cleanedTranslation(translation)
         guard let embedder = textEmbedder,
-              let prompt = semanticPrompt(for: plan(for: query, now: now, calendar: calendar), query: query),
+              let prompt = semanticPrompt(for: plan(for: query, now: now, calendar: calendar), query: query,
+                                          translation: translated),
               let v = embedder.embed(text: prompt) else {
             return SearchOutcome(query: query, interpretations: [], hits: [], termCount: 1, fullMatchCount: 0,
                                  isLowConfidence: false, incomplete: [], pendingCount: pending, unreadableCount: 0)
@@ -430,7 +486,8 @@ struct SearchEngine: Sendable {
         return SearchOutcome(query: query, interpretations: [], hits: hits, termCount: 1, fullMatchCount: hits.count,
                              isLowConfidence: false,
                              incomplete: missing > 0 ? [IncompleteAnalysis(name: "画面语义比对", count: missing)] : [],
-                             pendingCount: pending, unreadableCount: 0, semanticPrompt: prompt)
+                             pendingCount: pending, unreadableCount: 0, semanticPrompt: prompt,
+                             promptIsTranslated: translated != nil)
     }
 
     /// 每张有向量的图与描述的相似度，换算成分数；不够格的不出现在结果里
