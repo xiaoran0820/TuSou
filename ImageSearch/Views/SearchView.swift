@@ -404,7 +404,9 @@ private struct InterpretationBar: View {
             }
             // 交给 MobileCLIP 的英文描述：让用户知道"画面语义相符"是拿什么比的
             if let prompt = search.outcome.semanticPrompt {
-                Label("画面语义比对（MobileCLIP）：\(prompt)", systemImage: "eye")
+                // 「系统翻译」表示这句是 iOS 自带的翻译整句译出来的，不是逐词拼的
+                Label("画面语义比对（MobileCLIP\(search.outcome.promptIsTranslated ? " · 系统翻译" : "")）：\(prompt)",
+                      systemImage: "eye")
                     .font(.caption).foregroundStyle(.secondary)
             }
         }

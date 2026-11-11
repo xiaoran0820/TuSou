@@ -101,6 +101,29 @@ struct SettingsView: View {
                 }
 
                 Section {
+                    HStack {
+                        Text("系统翻译")
+                        Spacer()
+                        switch app.translator.status {
+                        case .ready: Text("可用").foregroundStyle(.secondary)
+                        case .notInstalled: Text("翻译语言未下载").foregroundStyle(.orange)
+                        case .unsupported:
+                            #if targetEnvironment(simulator)
+                            Text("不可用（模拟器限制）").foregroundStyle(.orange)
+                            #else
+                            Text("需要 iOS 18 或更新的系统").foregroundStyle(.orange)
+                            #endif
+                        }
+                    }
+                    Toggle("整句翻译中文查询", isOn: Bindable(app.translator).isEnabled)
+                        .disabled(app.translator.status != .ready)
+                } header: {
+                    Text("中文查询的翻译")
+                } footer: {
+                    Text("MobileCLIP 只认英文。打开后，中文查询先由 iOS 自带的翻译整句译成英文，再去比对画面；翻译在这台 iPhone 上完成，不联网。这需要系统里已经下载好「中文（简体）」和「英语」两种翻译语言，可以在系统自带的「翻译」App 里下载。图搜自己不会下载；没有下载、或者关掉这个开关时，照旧逐词翻译。")
+                }
+
+                Section {
                     Toggle("评测模式", isOn: Bindable(app.search).evalMode)
                 } header: {
                     Text("测试")

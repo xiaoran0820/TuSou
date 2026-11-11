@@ -20,6 +20,7 @@ struct RootView: View {
                 .tag(AppModel.Tab.settings)
         }
         .task { await app.start() }
+        .modifier(SystemTranslationHost(translator: app.translator))
     }
 }
 
