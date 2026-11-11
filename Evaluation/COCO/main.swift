@@ -6,8 +6,10 @@
 //       给每张图做 Vision 分析、算 MobileCLIP 向量，存进 App 格式的 SQLite 索引（可中断后续跑）
 //   evaluate model <索引数据库> <captions_val2017.json> <模型目录> <资源目录> <结果 JSON>
 //       只测模型：每条英文描述在 5,000 张里找它对应的那张（文找图），每张图在 25,000 条描述里找自己的描述（图找文）
-//   evaluate app <索引数据库> <instances_val2017.json> <queries_zh.json> <phrases_zh.tsv> <模型目录> <资源目录> <结果 JSON>
-//       测 App 整体：中文物体查询（相关 = 含该类物体且面积 ≥ 1%）；中文短语与英文原描述对比
+//   evaluate app <索引数据库> <instances_val2017.json> <queries_zh.json> <phrases_zh.tsv> <模型目录> <资源目录> <结果 JSON> [译文表.tsv]
+//       测 App 整体：中文物体查询（相关 = 含该类物体且面积 ≥ 1%）；中文短语与英文原描述对比。
+//       译文表每行「中文<TAB>英文」，是系统翻译对 SearchEngine.textForTranslation 给出的文本的译文；
+//       给了就按 App 开着「整句翻译中文查询」时的方式检索（方案 D、E 和中文短语），不给就是逐词翻译
 
 import Accelerate
 import CoreGraphics
@@ -196,6 +198,15 @@ case "app":
     let dictionary = try LabelDictionary(contentsOf: resources.appendingPathComponent("LabelDictionary.txt"))
     let glossary = try Glossary(contentsOf: resources.appendingPathComponent("cedict-glossary.tsv"))
 
+    var translations: [String: String] = [:]
+    if args.count > 9 {
+        for line in try String(contentsOfFile: args[9], encoding: .utf8).split(separator: "\n") where !line.hasPrefix("#") {
+            let parts = line.split(separator: "\t", omittingEmptySubsequences: false).map(String.init)
+            if parts.count >= 2, !parts[1].isEmpty { translations[parts[0]] = parts[1] }
+        }
+        print("译文表：\(translations.count) 条")
+    }
+
     let all = try await store.loadAll().sorted { Int($0.id)! < Int($1.id)! }
     let ids = all.map(\.id)
     let records = Dictionary(uniqueKeysWithValues: all.map { ($0.id, $0) })
@@ -242,15 +253,19 @@ case "app":
             let engine = SearchEngine(dictionary: dictionary, expander: .shared, textEmbedder: clip,
                                       options: cfg.options ?? .all, glossary: glossary)
             var ranked: [String], shown: [String]?
+            let translation = engine.textForTranslation(text).flatMap { translations[$0] }
             if cfg.options == nil {
-                guard let p = engine.semanticPrompt(for: engine.plan(for: text), query: text), let v = clip.embed(text: p) else { continue }
+                guard let p = engine.semanticPrompt(for: engine.plan(for: text), query: text,
+                                                    translation: SearchEngine.cleanedTranslation(translation)),
+                      let v = clip.embed(text: p) else { continue }
                 ranked = ids.sorted { MobileCLIP.similarity(records[$0]!.clipEmbedding ?? [], v) > MobileCLIP.similarity(records[$1]!.clipEmbedding ?? [], v) }
                 shown = nil
                 row["prompt"] = p
             } else {
-                let out = engine.search(query: text, ids: ids, records: records, metas: metas)
+                let out = engine.search(query: text, ids: ids, records: records, metas: metas, translation: translation)
                 ranked = out.hits.map(\.id)
                 shown = out.primaryHits.map(\.id)
+                if k == 3 { row["prompt_d"] = out.semanticPrompt ?? NSNull() }
             }
             let judged = ranked.filter { !ignore.contains($0) }
             let top10 = judged.prefix(10)
@@ -299,11 +314,13 @@ case "app":
         let target = p[0], caption = p[1], zh = p[2]
         guard records[target] != nil else { continue }
         let enPrompt = "a photo of " + caption.lowercased().trimmingCharacters(in: CharacterSet(charactersIn: ". "))
-        let zhPrompt = engine.semanticPrompt(for: engine.plan(for: zh), query: zh)
+        let zhTranslation = engine.textForTranslation(zh).flatMap { translations[$0] }
+        let zhPrompt = engine.semanticPrompt(for: engine.plan(for: zh), query: zh,
+                                             translation: SearchEngine.cleanedTranslation(zhTranslation))
         if zhPrompt == nil { noPrompt += 1 }
         let er = rank(of: target, prompt: enPrompt), zr = rank(of: target, prompt: zhPrompt)
         enRanks.append(er); zhRanks.append(zr)
-        let zhOut = engine.search(query: zh, ids: ids, records: records, metas: metas)
+        let zhOut = engine.search(query: zh, ids: ids, records: records, metas: metas, translation: zhTranslation)
         let enOut = engine.search(query: caption, ids: ids, records: records, metas: metas)
         if zhOut.primaryHits.contains(where: { $0.id == target }) { zhShown += 1 }
         if enOut.primaryHits.contains(where: { $0.id == target }) { enShown += 1 }
@@ -319,7 +336,7 @@ case "app":
     print(String(format: "  中文短语    R@1 %.1f%%  R@5 %.1f%%  R@10 %.1f%%  R@50 %.1f%%   App 默认显示到它：%.0f%%   描述为空 %d 条",
                  r(zhRanks, 1) * 100, r(zhRanks, 5) * 100, r(zhRanks, 10) * 100, r(zhRanks, 50) * 100, Double(zhShown) / nP * 100, noPrompt))
     let result: [String: Any] = [
-        "images": ids.count, "object_queries": summary, "object_per_query": perQuery,
+        "images": ids.count, "sentence_translations": translations.count, "object_queries": summary, "object_per_query": perQuery,
         "phrases": ["count": enRanks.count, "en_R@1": r(enRanks, 1), "en_R@5": r(enRanks, 5), "en_R@10": r(enRanks, 10),
                     "zh_R@1": r(zhRanks, 1), "zh_R@5": r(zhRanks, 5), "zh_R@10": r(zhRanks, 10),
                     "en_shown_rate": Double(enShown) / nP, "zh_shown_rate": Double(zhShown) / nP, "zh_no_prompt": noPrompt],

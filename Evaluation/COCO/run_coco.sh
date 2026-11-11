@@ -20,3 +20,7 @@ python3 Evaluation/COCO/make_queries.py "$COCO/annotations/instances_val2017.jso
   "$COCO/annotations/captions_val2017.json" Evaluation/COCO
 "$OUT/evaluate" app "$COCO/index.sqlite" "$COCO/annotations/instances_val2017.json" Evaluation/COCO/queries_zh.json \
   Evaluation/COCO/phrases_zh.tsv "$OUT" ImageSearch/Resources Evaluation/COCO/results_app.json
+# 同样的查询，按 App 开着「整句翻译中文查询」时的方式再测一遍（译文表由 Evaluation/translate 用系统翻译生成）
+"$OUT/evaluate" app "$COCO/index.sqlite" "$COCO/annotations/instances_val2017.json" Evaluation/COCO/queries_zh.json \
+  Evaluation/COCO/phrases_zh.tsv "$OUT" ImageSearch/Resources Evaluation/COCO/results_app_translated.json \
+  Evaluation/translations.tsv

@@ -62,6 +62,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of person",
+      "prompt_d" : "a photo of person",
       "query" : "人",
       "relevant" : 2223
     },
@@ -126,6 +127,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of bicycle",
+      "prompt_d" : "a photo of bicycle",
       "query" : "自行车",
       "relevant" : 82
     },
@@ -190,6 +192,7 @@
         "p10" : 0.80000000000000004
       },
       "prompt" : "a photo of car",
+      "prompt_d" : "a photo of car",
       "query" : "汽车",
       "relevant" : 254
     },
@@ -243,6 +246,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of motorcycle",
+      "prompt_d" : "a photo of motorcycle",
       "query" : "摩托车",
       "relevant" : 124
     },
@@ -304,6 +308,7 @@
         "p10" : 0.90000000000000002
       },
       "prompt" : "a photo of airplane",
+      "prompt_d" : "a photo of airplane",
       "query" : "飞机",
       "relevant" : 81
     },
@@ -368,6 +373,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of bus",
+      "prompt_d" : "a photo of bus",
       "query" : "公交车",
       "relevant" : 170
     },
@@ -420,6 +426,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of train",
+      "prompt_d" : "a photo of train",
       "query" : "火车",
       "relevant" : 157
     },
@@ -481,6 +488,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of truck",
+      "prompt_d" : "a photo of truck",
       "query" : "卡车",
       "relevant" : 168
     },
@@ -539,6 +547,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of boat",
+      "prompt_d" : "a photo of boat",
       "query" : "船",
       "relevant" : 84
     },
@@ -597,6 +606,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of traffic light",
+      "prompt_d" : "a photo of traffic light",
       "query" : "红绿灯",
       "relevant" : 41
     },
@@ -645,6 +655,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of hydrant",
+      "prompt_d" : "a photo of hydrant",
       "query" : "消防栓",
       "relevant" : 54
     },
@@ -701,6 +712,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of stop sign",
+      "prompt_d" : "a photo of stop sign",
       "query" : "停车标志",
       "relevant" : 38
     },
@@ -753,6 +765,7 @@
         "p10" : 0.90000000000000002
       },
       "prompt" : "a photo of parking meter",
+      "prompt_d" : "a photo of parking meter",
       "query" : "停车计时器",
       "relevant" : 30
     },
@@ -817,6 +830,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of bench",
+      "prompt_d" : "a photo of bench",
       "query" : "长椅",
       "relevant" : 154
     },
@@ -868,6 +882,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of bird",
+      "prompt_d" : "a photo of bird",
       "query" : "鸟",
       "relevant" : 73
     },
@@ -925,6 +940,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of adult cat",
+      "prompt_d" : "a photo of adult cat",
       "query" : "猫",
       "relevant" : 178
     },
@@ -977,6 +993,7 @@
         "p10" : 0.90000000000000002
       },
       "prompt" : "a photo of dog",
+      "prompt_d" : "a photo of dog",
       "query" : "狗",
       "relevant" : 152
     },
@@ -1041,6 +1058,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of horse",
+      "prompt_d" : "a photo of horse",
       "query" : "马",
       "relevant" : 111
     },
@@ -1099,6 +1117,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of sheep",
+      "prompt_d" : "a photo of sheep",
       "query" : "羊",
       "relevant" : 55
     },
@@ -1163,6 +1182,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of cow",
+      "prompt_d" : "a photo of cow",
       "query" : "牛",
       "relevant" : 71
     },
@@ -1212,6 +1232,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of elephant",
+      "prompt_d" : "a photo of elephant",
       "query" : "大象",
       "relevant" : 88
     },
@@ -1265,6 +1286,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of bear",
+      "prompt_d" : "a photo of bear",
       "query" : "熊",
       "relevant" : 49
     },
@@ -1326,6 +1348,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of zebra",
+      "prompt_d" : "a photo of zebra",
       "query" : "斑马",
       "relevant" : 76
     },
@@ -1379,6 +1402,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of giraffe",
+      "prompt_d" : "a photo of giraffe",
       "query" : "长颈鹿",
       "relevant" : 98
     },
@@ -1443,6 +1467,7 @@
         "p10" : 0.69999999999999996
       },
       "prompt" : "a photo of backpack",
+      "prompt_d" : "a photo of backpack",
       "query" : "背包",
       "relevant" : 67
     },
@@ -1507,6 +1532,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of umbrella",
+      "prompt_d" : "a photo of umbrella",
       "query" : "雨伞",
       "relevant" : 132
     },
@@ -1571,6 +1597,7 @@
         "p10" : 0.29999999999999999
       },
       "prompt" : "a photo of purse",
+      "prompt_d" : "a photo of purse",
       "query" : "手提包",
       "relevant" : 100
     },
@@ -1621,6 +1648,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of necktie",
+      "prompt_d" : "a photo of necktie",
       "query" : "领带",
       "relevant" : 58
     },
@@ -1685,6 +1713,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of suitcase",
+      "prompt_d" : "a photo of suitcase",
       "query" : "行李箱",
       "relevant" : 76
     },
@@ -1734,6 +1763,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of frisbee",
+      "prompt_d" : "a photo of frisbee",
       "query" : "飞盘",
       "relevant" : 24
     },
@@ -1798,6 +1828,7 @@
         "p10" : 0.10000000000000001
       },
       "prompt" : "a photo of snowboard",
+      "prompt_d" : "a photo of snowboard",
       "query" : "滑雪板",
       "relevant" : 31
     },
@@ -1862,6 +1893,7 @@
         "p10" : 0.59999999999999998
       },
       "prompt" : "a photo of snowboarding",
+      "prompt_d" : "a photo of snowboarding",
       "query" : "单板滑雪",
       "relevant" : 19
     },
@@ -1926,6 +1958,7 @@
         "p10" : 0.20000000000000001
       },
       "prompt" : "a photo of ball",
+      "prompt_d" : "a photo of ball",
       "query" : "球",
       "relevant" : 13
     },
@@ -1978,6 +2011,7 @@
         "p10" : 0.90000000000000002
       },
       "prompt" : "a photo of kite",
+      "prompt_d" : "a photo of kite",
       "query" : "风筝",
       "relevant" : 45
     },
@@ -2033,6 +2067,7 @@
         "p10" : 0.90000000000000002
       },
       "prompt" : "a photo of baseball bat",
+      "prompt_d" : "a photo of baseball bat",
       "query" : "棒球棒",
       "relevant" : 18
     },
@@ -2097,6 +2132,7 @@
         "p10" : 0.80000000000000004
       },
       "prompt" : "a photo of baseball glove",
+      "prompt_d" : "a photo of baseball glove",
       "query" : "棒球手套",
       "relevant" : 18
     },
@@ -2152,6 +2188,7 @@
         "p10" : 0.90000000000000002
       },
       "prompt" : "a photo of skateboard",
+      "prompt_d" : "a photo of skateboard",
       "query" : "滑板",
       "relevant" : 53
     },
@@ -2207,6 +2244,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of surfboard",
+      "prompt_d" : "a photo of surfboard",
       "query" : "冲浪板",
       "relevant" : 75
     },
@@ -2256,6 +2294,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of racquet",
+      "prompt_d" : "a photo of racquet",
       "query" : "网球拍",
       "relevant" : 79
     },
@@ -2320,6 +2359,7 @@
         "p10" : 0.69999999999999996
       },
       "prompt" : "a photo of bottle",
+      "prompt_d" : "a photo of bottle",
       "query" : "瓶子",
       "relevant" : 142
     },
@@ -2373,6 +2413,7 @@
         "p10" : 0.69999999999999996
       },
       "prompt" : "a photo of wine glass",
+      "prompt_d" : "a photo of wine glass",
       "query" : "酒杯",
       "relevant" : 52
     },
@@ -2437,6 +2478,7 @@
         "p10" : 0.59999999999999998
       },
       "prompt" : "a photo of cup",
+      "prompt_d" : "a photo of cup",
       "query" : "杯子",
       "relevant" : 204
     },
@@ -2501,6 +2543,7 @@
         "p10" : 0.5
       },
       "prompt" : "a photo of fork",
+      "prompt_d" : "a photo of fork",
       "query" : "叉子",
       "relevant" : 56
     },
@@ -2565,6 +2608,7 @@
         "p10" : 0.29999999999999999
       },
       "prompt" : "a photo of knife",
+      "prompt_d" : "a photo of knife",
       "query" : "刀",
       "relevant" : 51
     },
@@ -2629,6 +2673,7 @@
         "p10" : 0.29999999999999999
       },
       "prompt" : "a photo of spoon",
+      "prompt_d" : "a photo of spoon",
       "query" : "勺子",
       "relevant" : 40
     },
@@ -2693,6 +2738,7 @@
         "p10" : 0.59999999999999998
       },
       "prompt" : "a photo of bowl",
+      "prompt_d" : "a photo of bowl",
       "query" : "碗",
       "relevant" : 205
     },
@@ -2743,6 +2789,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of banana",
+      "prompt_d" : "a photo of banana",
       "query" : "香蕉",
       "relevant" : 76
     },
@@ -2801,6 +2848,7 @@
         "p10" : 0.69999999999999996
       },
       "prompt" : "a photo of apple",
+      "prompt_d" : "a photo of apple",
       "query" : "苹果",
       "relevant" : 47
     },
@@ -2853,6 +2901,7 @@
         "p10" : 0.90000000000000002
       },
       "prompt" : "a photo of sandwich",
+      "prompt_d" : "a photo of sandwich",
       "query" : "三明治",
       "relevant" : 84
     },
@@ -2909,6 +2958,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of oranges",
+      "prompt_d" : "a photo of oranges",
       "query" : "橙子",
       "relevant" : 59
     },
@@ -2958,6 +3008,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of broccoli",
+      "prompt_d" : "a photo of broccoli",
       "query" : "西兰花",
       "relevant" : 63
     },
@@ -3011,6 +3062,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of carrot",
+      "prompt_d" : "a photo of carrot",
       "query" : "胡萝卜",
       "relevant" : 47
     },
@@ -3063,6 +3115,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of hotdog",
+      "prompt_d" : "a photo of hotdog",
       "query" : "热狗",
       "relevant" : 42
     },
@@ -3113,6 +3166,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of pizza",
+      "prompt_d" : "a photo of pizza",
       "query" : "披萨",
       "relevant" : 133
     },
@@ -3165,6 +3219,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of donut",
+      "prompt_d" : "a photo of donut",
       "query" : "甜甜圈",
       "relevant" : 48
     },
@@ -3229,6 +3284,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of cake",
+      "prompt_d" : "a photo of cake",
       "query" : "蛋糕",
       "relevant" : 112
     },
@@ -3293,6 +3349,7 @@
         "p10" : 0.80000000000000004
       },
       "prompt" : "a photo of chair",
+      "prompt_d" : "a photo of chair",
       "query" : "椅子",
       "relevant" : 423
     },
@@ -3357,6 +3414,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of sofa",
+      "prompt_d" : "a photo of sofa",
       "query" : "沙发",
       "relevant" : 188
     },
@@ -3421,6 +3479,7 @@
         "p10" : 0.29999999999999999
       },
       "prompt" : "a photo of decorative plant",
+      "prompt_d" : "a photo of decorative plant",
       "query" : "盆栽",
       "relevant" : 113
     },
@@ -3476,6 +3535,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of bed",
+      "prompt_d" : "a photo of bed",
       "query" : "床",
       "relevant" : 146
     },
@@ -3540,6 +3600,7 @@
         "p10" : 0.40000000000000002
       },
       "prompt" : "a photo of table",
+      "prompt_d" : "a photo of table",
       "query" : "餐桌",
       "relevant" : 459
     },
@@ -3604,6 +3665,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of toilet seat",
+      "prompt_d" : "a photo of toilet seat",
       "query" : "马桶",
       "relevant" : 136
     },
@@ -3668,6 +3730,7 @@
         "p10" : 0.90000000000000002
       },
       "prompt" : "a photo of television",
+      "prompt_d" : "a photo of television",
       "query" : "电视",
       "relevant" : 179
     },
@@ -3732,6 +3795,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of laptop",
+      "prompt_d" : "a photo of laptop",
       "query" : "笔记本电脑",
       "relevant" : 146
     },
@@ -3796,6 +3860,7 @@
         "p10" : 0.90000000000000002
       },
       "prompt" : "a photo of computer mouse",
+      "prompt_d" : "a photo of computer mouse",
       "query" : "鼠标",
       "relevant" : 23
     },
@@ -3844,6 +3909,7 @@
         "p10" : 0.90000000000000002
       },
       "prompt" : "a photo of a remote control",
+      "prompt_d" : "a photo of a remote control",
       "query" : "遥控器",
       "relevant" : 27
     },
@@ -3908,6 +3974,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of computer keyboard",
+      "prompt_d" : "a photo of computer keyboard",
       "query" : "键盘",
       "relevant" : 86
     },
@@ -3972,6 +4039,7 @@
         "p10" : 0.90000000000000002
       },
       "prompt" : "a photo of phone",
+      "prompt_d" : "a photo of phone",
       "query" : "手机",
       "relevant" : 62
     },
@@ -4036,6 +4104,7 @@
         "p10" : 0.80000000000000004
       },
       "prompt" : "a photo of microwave",
+      "prompt_d" : "a photo of microwave",
       "query" : "微波炉",
       "relevant" : 34
     },
@@ -4100,6 +4169,7 @@
         "p10" : 0.80000000000000004
       },
       "prompt" : "a photo of kitchen oven",
+      "prompt_d" : "a photo of kitchen oven",
       "query" : "烤箱",
       "relevant" : 107
     },
@@ -4158,6 +4228,7 @@
         "p10" : 0.90000000000000002
       },
       "prompt" : "a photo of kitchen sink",
+      "prompt_d" : "a photo of kitchen sink",
       "query" : "水槽",
       "relevant" : 118
     },
@@ -4222,6 +4293,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of refrigerator",
+      "prompt_d" : "a photo of refrigerator",
       "query" : "冰箱",
       "relevant" : 97
     },
@@ -4286,6 +4358,7 @@
         "p10" : 0.90000000000000002
       },
       "prompt" : "a photo of book",
+      "prompt_d" : "a photo of book",
       "query" : "书",
       "relevant" : 105
     },
@@ -4338,6 +4411,7 @@
         "p10" : 0
       },
       "prompt" : "a photo of bell",
+      "prompt_d" : "a photo of bell",
       "query" : "钟",
       "relevant" : 71
     },
@@ -4402,6 +4476,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of vase",
+      "prompt_d" : "a photo of vase",
       "query" : "花瓶",
       "relevant" : 59
     },
@@ -4450,6 +4525,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of scissors",
+      "prompt_d" : "a photo of scissors",
       "query" : "剪刀",
       "relevant" : 16
     },
@@ -4514,6 +4590,7 @@
         "p10" : 0.5
       },
       "prompt" : "a photo of poodle bear",
+      "prompt_d" : "a photo of poodle bear",
       "query" : "泰迪熊",
       "relevant" : 83
     },
@@ -4568,6 +4645,7 @@
         "p10" : 0.40000000000000002
       },
       "prompt" : "a photo of hair dryer",
+      "prompt_d" : "a photo of hair dryer",
       "query" : "吹风机",
       "relevant" : 5
     },
@@ -4616,6 +4694,7 @@
         "p10" : 0.80000000000000004
       },
       "prompt" : "a photo of toothbrush",
+      "prompt_d" : "a photo of toothbrush",
       "query" : "牙刷",
       "relevant" : 9
     },
@@ -4681,6 +4760,7 @@
         "p10" : 0.69999999999999996
       },
       "prompt" : "a photo of table person",
+      "prompt_d" : "a photo of table person",
       "query" : "餐桌 人",
       "relevant" : 214
     },
@@ -4746,6 +4826,7 @@
         "p10" : 0
       },
       "prompt" : "a photo of chair person",
+      "prompt_d" : "a photo of chair person",
       "query" : "椅子 人",
       "relevant" : 210
     },
@@ -4811,6 +4892,7 @@
         "p10" : 0.40000000000000002
       },
       "prompt" : "a photo of chair table",
+      "prompt_d" : "a photo of chair table",
       "query" : "椅子 餐桌",
       "relevant" : 159
     },
@@ -4876,6 +4958,7 @@
         "p10" : 0.10000000000000001
       },
       "prompt" : "a photo of cup table",
+      "prompt_d" : "a photo of cup table",
       "query" : "杯子 餐桌",
       "relevant" : 113
     },
@@ -4941,6 +5024,7 @@
         "p10" : 0.10000000000000001
       },
       "prompt" : "a photo of car person",
+      "prompt_d" : "a photo of car person",
       "query" : "汽车 人",
       "relevant" : 109
     },
@@ -5006,6 +5090,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of person umbrella",
+      "prompt_d" : "a photo of person umbrella",
       "query" : "人 雨伞",
       "relevant" : 100
     },
@@ -5071,6 +5156,7 @@
         "p10" : 0.10000000000000001
       },
       "prompt" : "a photo of bowl table",
+      "prompt_d" : "a photo of bowl table",
       "query" : "碗 餐桌",
       "relevant" : 99
     },
@@ -5136,6 +5222,7 @@
         "p10" : 0.20000000000000001
       },
       "prompt" : "a photo of cup person",
+      "prompt_d" : "a photo of cup person",
       "query" : "杯子 人",
       "relevant" : 95
     },
@@ -5201,6 +5288,7 @@
         "p10" : 0.59999999999999998
       },
       "prompt" : "a photo of bench person",
+      "prompt_d" : "a photo of bench person",
       "query" : "长椅 人",
       "relevant" : 94
     },
@@ -5266,6 +5354,7 @@
         "p10" : 0.5
       },
       "prompt" : "a photo of purse person",
+      "prompt_d" : "a photo of purse person",
       "query" : "手提包 人",
       "relevant" : 90
     },
@@ -5322,6 +5411,7 @@
         "p10" : 0.29999999999999999
       },
       "prompt" : "a photo of sofa person",
+      "prompt_d" : "a photo of sofa person",
       "query" : "沙发 人",
       "relevant" : 82
     },
@@ -5387,6 +5477,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of motorcycle person",
+      "prompt_d" : "a photo of motorcycle person",
       "query" : "摩托车 人",
       "relevant" : 81
     },
@@ -5440,6 +5531,7 @@
         "p10" : 0.90000000000000002
       },
       "prompt" : "a photo of person racquet",
+      "prompt_d" : "a photo of person racquet",
       "query" : "人 网球拍",
       "relevant" : 78
     },
@@ -5505,6 +5597,7 @@
         "p10" : 0.40000000000000002
       },
       "prompt" : "a photo of chair sofa",
+      "prompt_d" : "a photo of chair sofa",
       "query" : "椅子 沙发",
       "relevant" : 74
     },
@@ -5558,6 +5651,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of person pizza",
+      "prompt_d" : "a photo of person pizza",
       "query" : "人 披萨",
       "relevant" : 73
     },
@@ -5623,6 +5717,7 @@
         "p10" : 0.10000000000000001
       },
       "prompt" : "a photo of bowl person",
+      "prompt_d" : "a photo of bowl person",
       "query" : "碗 人",
       "relevant" : 72
     },
@@ -5688,6 +5783,7 @@
         "p10" : 0.90000000000000002
       },
       "prompt" : "a photo of table pizza",
+      "prompt_d" : "a photo of table pizza",
       "query" : "餐桌 披萨",
       "relevant" : 70
     },
@@ -5744,6 +5840,7 @@
         "p10" : 0.40000000000000002
       },
       "prompt" : "a photo of person truck",
+      "prompt_d" : "a photo of person truck",
       "query" : "人 卡车",
       "relevant" : 66
     },
@@ -5809,6 +5906,7 @@
         "p10" : 0.29999999999999999
       },
       "prompt" : "a photo of bottle person",
+      "prompt_d" : "a photo of bottle person",
       "query" : "瓶子 人",
       "relevant" : 65
     },
@@ -5865,6 +5963,7 @@
         "p10" : 1
       },
       "prompt" : "a photo of person surfboard",
+      "prompt_d" : "a photo of person surfboard",
       "query" : "人 冲浪板",
       "relevant" : 64
     },
@@ -5930,6 +6029,7 @@
         "p10" : 0.69999999999999996
       },
       "prompt" : "a photo of horse person",
+      "prompt_d" : "a photo of horse person",
       "query" : "马 人",
       "relevant" : 63
     },
@@ -5995,6 +6095,7 @@
         "p10" : 0.80000000000000004
       },
       "prompt" : "a photo of cake table",
+      "prompt_d" : "a photo of cake table",
       "query" : "蛋糕 餐桌",
       "relevant" : 63
     },
@@ -6060,6 +6161,7 @@
         "p10" : 0.40000000000000002
       },
       "prompt" : "a photo of person television",
+      "prompt_d" : "a photo of person television",
       "query" : "人 电视",
       "relevant" : 62
     },
@@ -6112,6 +6214,7 @@
         "p10" : 0.80000000000000004
       },
       "prompt" : "a photo of cake person",
+      "prompt_d" : "a photo of cake person",
       "query" : "蛋糕 人",
       "relevant" : 62
     },
@@ -6177,6 +6280,7 @@
         "p10" : 0.29999999999999999
       },
       "prompt" : "a photo of car truck",
+      "prompt_d" : "a photo of car truck",
       "query" : "汽车 卡车",
       "relevant" : 59
     },
@@ -6242,6 +6346,7 @@
         "p10" : 0.59999999999999998
       },
       "prompt" : "a photo of chair television",
+      "prompt_d" : "a photo of chair television",
       "query" : "椅子 电视",
       "relevant" : 58
     },
@@ -6307,6 +6412,7 @@
         "p10" : 0.29999999999999999
       },
       "prompt" : "a photo of bottle table",
+      "prompt_d" : "a photo of bottle table",
       "query" : "瓶子 餐桌",
       "relevant" : 57
     },
@@ -6356,6 +6462,7 @@
         "p10" : 0.90000000000000002
       },
       "prompt" : "a photo of person necktie",
+      "prompt_d" : "a photo of person necktie",
       "query" : "人 领带",
       "relevant" : 54
     },
@@ -6409,6 +6516,7 @@
         "p10" : 0.40000000000000002
       },
       "prompt" : "a photo of dog person",
+      "prompt_d" : "a photo of dog person",
       "query" : "狗 人",
       "relevant" : 53
     },
@@ -6462,6 +6570,7 @@
         "p10" : 0.40000000000000002
       },
       "prompt" : "a photo of bed person",
+      "prompt_d" : "a photo of bed person",
       "query" : "床 人",
       "relevant" : 52
     }
@@ -9226,5 +9335,6 @@
     "zh_R@5" : 0.35999999999999999,
     "zh_R@10" : 0.47333333333333333,
     "zh_shown_rate" : 0.84333333333333338
-  }
+  },
+  "sentence_translations" : 0
 }
