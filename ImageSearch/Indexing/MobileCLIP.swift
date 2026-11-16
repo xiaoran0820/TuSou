@@ -35,8 +35,22 @@ final class MobileCLIP: ImageEmbedder, TextEmbedder, @unchecked Sendable {
     private let textInput: String
     private let textShape: [NSNumber]
     private let textOutput: String
-    private let lock = NSLock()   // 同一时间只跑一次预测
+    /// 图片预测并发数（默认 1，和原来一次只跑一张相同）。Core ML 的同一个 MLModel 支持多线程预测，
+    /// 但并发到几张更快、会不会抢神经引擎，要在真机上量；设置里可以改，重开 App 生效
+    private let imageGate: DispatchSemaphore
+    /// 文本编码一次只跑一张（查询很少，且要保护 textCache）
+    private let textGate = DispatchSemaphore(value: 1)
     private var textCache: [String: [Float]] = [:]
+    /// 每次图片编码的（等门时间, 预测时间），单位秒。由 App 侧设置，用来区分「在排队」和「在算」
+    static var timingObserver: (@Sendable (TimeInterval, TimeInterval) -> Void)?
+
+    static let imageConcurrencyKey = "clipImageConcurrency"
+
+    /// 设置里的并发数（1～4）；没设置过是 1
+    static var defaultImageConcurrency: Int {
+        let v = UserDefaults.standard.integer(forKey: imageConcurrencyKey)
+        return v <= 0 ? 1 : max(1, min(4, v))
+    }
 
     /// 从 App 包加载（Xcode 会把 .mlpackage 编译成 .mlmodelc 放进包里）
     static func load(bundle: Bundle = .main) -> MobileCLIP? {
@@ -47,7 +61,8 @@ final class MobileCLIP: ImageEmbedder, TextEmbedder, @unchecked Sendable {
     }
 
     init?(imageModelURL: URL, textModelURL: URL, tokenizer: CLIPTokenizer,
-          computeUnits: MLComputeUnits = MobileCLIP.defaultComputeUnits) {
+          computeUnits: MLComputeUnits = MobileCLIP.defaultComputeUnits,
+          imageConcurrency: Int = MobileCLIP.defaultImageConcurrency) {
         let config = MLModelConfiguration()
         config.computeUnits = computeUnits
         guard let image = try? MLModel(contentsOf: imageModelURL, configuration: config),
@@ -67,6 +82,7 @@ final class MobileCLIP: ImageEmbedder, TextEmbedder, @unchecked Sendable {
         textInput = textIn.key
         textShape = textIn.value.multiArrayConstraint?.shape ?? [1, NSNumber(value: CLIPTokenizer.contextLength)]
         textOutput = textOut.key
+        imageGate = DispatchSemaphore(value: max(1, imageConcurrency))
     }
 
     /// iOS 模拟器跑不了神经网络引擎，只用 CPU；真机和 Mac 交给系统挑（优先神经网络引擎）
@@ -83,17 +99,21 @@ final class MobileCLIP: ImageEmbedder, TextEmbedder, @unchecked Sendable {
         let options: [MLFeatureValue.ImageOption: Any] = [.cropAndScale: VNImageCropAndScaleOption.centerCrop.rawValue]
         guard let value = try? MLFeatureValue(cgImage: image, constraint: imageConstraint, options: options),
               let input = try? MLDictionaryFeatureProvider(dictionary: [imageInput: value]) else { return nil }
-        lock.lock()
-        defer { lock.unlock() }
-        guard let out = try? imageModel.prediction(from: input).featureValue(for: imageOutput)?.multiArrayValue else {
-            return nil
-        }
+        let start = DispatchTime.now().uptimeNanoseconds
+        imageGate.wait()
+        let waited = Double(DispatchTime.now().uptimeNanoseconds - start) / 1e9
+        defer { imageGate.signal() }
+        let predictStart = DispatchTime.now().uptimeNanoseconds
+        let out = try? imageModel.prediction(from: input).featureValue(for: imageOutput)?.multiArrayValue
+        let predicted = Double(DispatchTime.now().uptimeNanoseconds - predictStart) / 1e9
+        Self.timingObserver?(waited, predicted)
+        guard let out else { return nil }
         return Self.normalized(Self.floats(out))
     }
 
     func embed(text: String) -> [Float]? {
-        lock.lock()
-        defer { lock.unlock() }
+        textGate.wait()
+        defer { textGate.signal() }
         if let hit = textCache[text] { return hit }
         guard let array = try? MLMultiArray(shape: textShape, dataType: .int32) else { return nil }
         let ids = tokenizer.inputIDs(for: text)
