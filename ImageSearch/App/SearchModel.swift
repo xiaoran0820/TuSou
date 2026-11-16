@@ -35,7 +35,16 @@ final class SearchModel {
     var evalMode = UserDefaults.standard.bool(forKey: Keys.evalMode) {
         didSet {
             UserDefaults.standard.set(evalMode, forKey: Keys.evalMode)
-            if !evalMode { mode = .fusion; importedOnly = false }
+            if !evalMode {
+                mode = .fusion
+                importedOnly = false
+                // 开发用开关跟着评测模式一起关掉：否则离开评测模式后，索引仍只做前几百张、或者一直不做文字识别
+                engine.indexLimit = 0
+                engine.skipTextRecognition = false
+                UserDefaults.standard.set(false, forKey: ImageAnalyzer.textFastGateKey)
+                UserDefaults.standard.set(false, forKey: IndexingEngine.skipSmallPreviewEmbeddingKey)
+                UserDefaults.standard.set(1, forKey: MobileCLIP.imageConcurrencyKey)
+            }
             rerun()
         }
     }
@@ -88,6 +97,7 @@ final class SearchModel {
         let gen = generation
         guard !q.isEmpty else {
             outcome = .empty()
+            isSearching = false
             return
         }
         isSearching = true
