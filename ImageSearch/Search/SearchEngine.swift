@@ -46,6 +46,8 @@ struct SearchOutcome: Sendable {
     let pendingCount: Int
     /// 图片本身读取失败、一项识别都没做成的图片数
     let unreadableCount: Int
+    /// 这次检索要看图中文字，但文字还在等建索引第二步识别的图片数
+    var textPendingCount = 0
     /// 交给 MobileCLIP 比对画面的英文描述（没用到时为 nil）
     var semanticPrompt: String? = nil
     /// 这句描述是系统翻译整句译出来的（否则是逐词拼出来的，或者查询本来就是英文）
@@ -457,6 +459,7 @@ struct SearchEngine: Sendable {
         return SearchOutcome(query: query, interpretations: interpretations(of: plans, covered: covered), hits: hits,
                              termCount: plans.count, fullMatchCount: full, isLowConfidence: lowConfidence,
                              incomplete: cov.incomplete, pendingCount: cov.pending, unreadableCount: cov.unreadable,
+                             textPendingCount: cov.textPending,
                              semanticPrompt: prompt, promptIsTranslated: prompt != nil && translated != nil)
     }
 
@@ -563,18 +566,22 @@ struct SearchEngine: Sendable {
         return need
     }
 
-    /// 这次检索覆盖得怎么样，三种情况分开数：
-    /// 还没建好索引的（pending）、图片读取失败的（unreadable）、某项需要的识别没跑成的（incomplete）
+    /// 这次检索覆盖得怎么样，四种情况分开数：
+    /// 还没建好索引的（pending）、图片读取失败的（unreadable）、某项需要的识别没跑成的（incomplete）、
+    /// 要看图中文字但文字还在等第二步识别的（textPending）
     private func coverage(for plans: [TermPlan], ids: [String], records: [String: ImageRecord], semanticModel: String?)
-        -> (pending: Int, unreadable: Int, incomplete: [IncompleteAnalysis]) {
+        -> (pending: Int, unreadable: Int, incomplete: [IncompleteAnalysis], textPending: Int) {
         let need = Self.requiredAnalyses(for: plans)
-        var pending = 0, unreadable = 0, missingEmbedding = 0
+        var pending = 0, unreadable = 0, missingEmbedding = 0, textPending = 0
         var counts: [Int: Int] = [:]
         for id in ids {
             guard let r = records[id] else { pending += 1; continue }
             if r.flags.contains(.analysisFailed) { unreadable += 1; continue }
+            if need.contains(.textRecognitionFailed), r.flags.contains(.textRecognitionPending) { textPending += 1 }
+            var missing = r.flags.intersection(need)
+            // 只拿到小预览图的没做文字识别：要看图中文字时，算「没能完成文字识别」
+            if need.contains(.textRecognitionFailed), r.flags.contains(.smallPreview) { missing.insert(.textRecognitionFailed) }
             if let m = semanticModel, !r.hasEmbedding(from: m) { missingEmbedding += 1 }
-            let missing = r.flags.intersection(need)
             guard !missing.isEmpty else { continue }
             for item in RecordFlags.analysisItems where missing.contains(item.flag) {
                 counts[item.flag.rawValue, default: 0] += 1
@@ -585,7 +592,7 @@ struct SearchEngine: Sendable {
         }
         // 刚装上模型、还在补算向量时：这些图暂时只能按标签和文字匹配
         if missingEmbedding > 0 { incomplete.append(IncompleteAnalysis(name: "画面语义比对", count: missingEmbedding)) }
-        return (pending, unreadable, incomplete)
+        return (pending, unreadable, incomplete, textPending)
     }
 
     /// 多个词时，有独立识别依据（画面标签、人脸等）的词要单独再和画面比一次：

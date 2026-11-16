@@ -212,6 +212,19 @@ enum QueryParser {
 
     // MARK: - 日期
 
+    /// 日期表达式的正则：只编译一次。每次检索会解析 1～2 次查询，原来每次解析都重新编译这 5 条
+    private enum DatePatternKind {
+        case yearMonth, yearMonthSeparator, yearOnly, monthOnly, yearLoose
+    }
+
+    private static let datePatterns: [(regex: NSRegularExpression, kind: DatePatternKind)] = [
+        (try! NSRegularExpression(pattern: #"(\d{4})\s*年\s*(\d{1,2})\s*月份?"#), .yearMonth),
+        (try! NSRegularExpression(pattern: #"(\d{4})[-./](\d{1,2})(?!\d)"#), .yearMonthSeparator),
+        (try! NSRegularExpression(pattern: #"(\d{4})\s*年"#), .yearOnly),
+        (try! NSRegularExpression(pattern: #"(?<!\d)(\d{1,2})\s*月份?"#), .monthOnly),
+        (try! NSRegularExpression(pattern: #"(?<![\d.])((?:19|20)\d{2})(?![\d.])"#), .yearLoose),
+    ]
+
     private static func extractDates(from text: inout String, now: Date, calendar: Calendar) -> [QueryTerm] {
         var out: [QueryTerm] = []
         func yearRange(_ y: Int) -> DateFilter? {
@@ -230,22 +243,29 @@ enum QueryParser {
             return .range(start: i.start, end: i.end)
         }
 
-        // 顺序很重要：先匹配更长的表达式
-        let patterns: [(String, ([String]) -> DateFilter?)] = [
-            (#"(\d{4})\s*年\s*(\d{1,2})\s*月份?"#, { monthRange(Int($0[1])!, Int($0[2])!) }),
-            (#"(\d{4})[-./](\d{1,2})(?!\d)"#, { monthRange(Int($0[1])!, Int($0[2])!) }),
-            (#"(\d{4})\s*年"#, { yearRange(Int($0[1])!) }),
-            (#"(?<!\d)(\d{1,2})\s*月份?"#, { m in Int(m[1]).flatMap { (1...12).contains($0) ? .month($0) : nil } }),
-            (#"(?<![\d.])((?:19|20)\d{2})(?![\d.])"#, { yearRange(Int($0[1])!) }),
-        ]
-        for (pattern, make) in patterns {
-            guard let regex = try? NSRegularExpression(pattern: pattern) else { continue }
+        // 顺序很重要：先匹配更长的表达式（正则已经编译好，见 datePatterns）
+        func filter(for kind: DatePatternKind, _ g: [String]) -> DateFilter? {
+            switch kind {
+            case .yearMonth, .yearMonthSeparator:
+                guard let y = Int(g[1]), let m = Int(g[2]) else { return nil }
+                return monthRange(y, m)
+            case .yearOnly, .yearLoose:
+                guard let y = Int(g[1]) else { return nil }
+                return yearRange(y)
+            case .monthOnly:
+                guard let m = Int(g[1]), (1...12).contains(m) else { return nil }
+                return .month(m)
+            }
+        }
+        for (regex, kind) in Self.datePatterns {
             while let m = regex.firstMatch(in: text, range: NSRange(text.startIndex..., in: text)) {
                 let groups = (0..<m.numberOfRanges).map { i -> String in
                     guard let r = Range(m.range(at: i), in: text) else { return "" }
                     return String(text[r])
                 }
-                if let f = make(groups) { out.append(QueryTerm(text: groups[0].trimmingCharacters(in: .whitespaces), kind: .date(f))) }
+                if let f = filter(for: kind, groups) {
+                    out.append(QueryTerm(text: groups[0].trimmingCharacters(in: .whitespaces), kind: .date(f)))
+                }
                 text.replaceSubrange(Range(m.range, in: text)!, with: " ")
             }
         }
