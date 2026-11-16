@@ -4,6 +4,10 @@ import Photos
 struct SettingsView: View {
     @Environment(AppModel.self) private var app
     @State private var confirmRebuild = false
+    /// 实验项：默认值和 MobileCLIP / ImageAnalyzer 里读的默认值一致
+    @AppStorage(MobileCLIP.imageConcurrencyKey) private var clipConcurrency = 1
+    @AppStorage(ImageAnalyzer.textFastGateKey) private var textFastGate = false
+    @AppStorage(IndexingEngine.skipSmallPreviewEmbeddingKey) private var skipSmallEmbedding = false
 
     var body: some View {
         let engine = app.engine
@@ -52,6 +56,8 @@ struct SettingsView: View {
                     stat("已建立索引", engine.indexedCount)
                     if engine.failedCount > 0 { stat("暂时无法分析", engine.failedCount) }
                     if engine.unsavedCount > 0 { stat("索引没能保存（下次扫描重试）", engine.unsavedCount) }
+                    if engine.textPendingCount > 0 { stat("图中文字还没识别", engine.textPendingCount) }
+                    if engine.smallPreviewCount > 0 { stat("只拿到小预览图的照片", engine.smallPreviewCount) }
                     HStack {
                         Text("画面语义（MobileCLIP-S2）")
                         Spacer()
@@ -77,7 +83,8 @@ struct SettingsView: View {
                     }
                     if engine.phase == .indexing {
                         ProgressView(value: Double(engine.progressDone), total: Double(max(engine.progressTotal, 1))) {
-                            Text("正在建立索引 \(engine.progressDone)/\(engine.progressTotal)").font(.footnote)
+                            Text("\(engine.currentPass.map { $0 == .single ? "正在建立索引" : $0.title } ?? "正在建立索引") \(engine.progressDone)/\(engine.progressTotal)")
+                                .font(.footnote)
                         }
                     }
                     Button("重新扫描") { engine.scheduleRescan(retryFailed: true) }
@@ -90,7 +97,27 @@ struct SettingsView: View {
                 } header: {
                     Text("索引")
                 } footer: {
-                    Text("新拍的照片、编辑或删除照片都会自动增量更新索引。")
+                    Text("新拍的照片、编辑或删除照片都会自动增量更新索引。建索引时先识别画面，做完整个相册就能按画面搜；图中文字同时在识别，跟不上的随后补上。建索引时屏幕保持常亮，因为锁屏后 App 会被系统暂停。「只拿到小预览图的照片」是原图不在这台 iPhone 上（多半在 iCloud）、系统只给了很小预览图的照片：图搜不联网下载原图，这些照片画面识别不准，也认不出图中文字。照片下载到本机后，点「重新扫描」会重新识别。")
+                }
+
+                if !engine.lastPassStats.isEmpty {
+                    Section {
+                        ForEach(engine.lastPassStats.indices, id: \.self) { i in
+                            let s = engine.lastPassStats[i]
+                            VStack(alignment: .leading, spacing: 4) {
+                                HStack {
+                                    Text(s.pass.title)
+                                    Spacer()
+                                    Text(s.summary).foregroundStyle(.secondary)
+                                }
+                                Text(s.details).font(.caption).foregroundStyle(.secondary)
+                            }
+                        }
+                    } header: {
+                        Text("最近一次建索引的耗时")
+                    } footer: {
+                        Text("只统计 \(IndexingEngine.minImagesForStats) 张以上的建索引，只保存到 App 关闭为止。单张各步骤的时间是每张图在这一步上花的时间；几张图同时处理，所以平均每张的总时间比各步骤加起来短。")
+                    }
                 }
 
                 Section {
@@ -121,6 +148,36 @@ struct SettingsView: View {
                     Text("中文查询的翻译")
                 } footer: {
                     Text("MobileCLIP 只认英文。打开后，中文查询先由 iOS 自带的翻译整句译成英文，再去比对画面；翻译在这台 iPhone 上完成，不联网。这需要系统里已经下载好「中文（简体）」和「英语」两种翻译语言，可以在系统自带的「翻译」App 里下载。图搜自己不会下载；没有下载、或者关掉这个开关时，照旧逐词翻译。")
+                }
+
+                if app.search.evalMode {
+                    Section {
+                        Toggle("先识别画面，再识别文字", isOn: Bindable(engine).textInSecondPass)
+                            .disabled(engine.isBusy)
+                    } header: {
+                        Text("建索引方式（评测用）")
+                    } footer: {
+                        Text("打开（默认）：先识别画面，做完整个相册就能按画面搜；图中文字同时识别，跟不上的随后补上。关掉：回到原来一张图一次做完全部识别的方式。改了以后点「重建全部索引」，在「最近一次建索引的耗时」里就能对比两种方式。")
+                    }
+
+                    Section {
+                        Picker("每次扫描最多分析", selection: Bindable(engine).indexLimit) {
+                            Text("全部").tag(0)
+                            ForEach([100, 200, 500, 1000, 2000], id: \.self) { n in Text("\(n) 张").tag(n) }
+                        }
+                        Toggle("跳过文字识别", isOn: Bindable(engine).skipTextRecognition)
+                        Picker("MobileCLIP 并发", selection: $clipConcurrency) {
+                            Text("1 张（默认）").tag(1)
+                            Text("2 张").tag(2)
+                            Text("4 张").tag(4)
+                        }
+                        Toggle("小预览图先不建语义向量", isOn: $skipSmallEmbedding)
+                        Toggle("文字识别先用快速模式探路", isOn: $textFastGate)
+                    } header: {
+                        Text("建索引实验（开发用）")
+                    } footer: {
+                        Text("「每次扫描最多分析」只做前 N 张新图，其余的留到下次扫描（不会删记录），适合开发时快速看到结果；想看全部就选「全部」再点「重新扫描」。打开「跳过文字识别」后，图片会标成文字待识别，搜索会如实提示结果不全，但建索引快很多。「MobileCLIP 并发」和「快速模式探路」都是实验项，重开 App 生效：并发解决的是第一步里 CLIP 只能一张一张算的问题；探路解决的是没有字的照片也要跑一遍慢识别的问题，开启后请确认漏字的比例可以接受。「小预览图先不建语义向量」针对原图只在 iCloud、系统只给很小预览图的照片：它们本来画面识别就不准，先跳过 CLIP 能明显缩短第一步，代价是这些图暂时不能按画面语义搜到，搜索会提示有多少张没比对；原图下载到本机后点「重新扫描」会补上。关掉评测模式会把这些实验开关恢复成默认。")
+                    }
                 }
 
                 Section {
