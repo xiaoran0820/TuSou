@@ -24,10 +24,16 @@ struct RecordFlags: OptionSet, Sendable, Hashable {
     static let faceDetectionFailed    = RecordFlags(rawValue: 1 << 4)
     static let barcodeDetectionFailed = RecordFlags(rawValue: 1 << 5)
     static let textRecognitionFailed  = RecordFlags(rawValue: 1 << 6)
+    /// 文字识别排在建索引的第二步、还没做到这张图（不是没跑成）：此时图中文字是空的，做完后清掉这个标记。
+    /// 它不算「索引不完整」：「重新扫描」不会因为它重做整张图，第二步会自动补上
+    static let textRecognitionPending = RecordFlags(rawValue: 1 << 7)
+    /// 只拿到了很小的预览图（最长边不到 200 像素，多半是原图只在 iCloud、本机还没有较大的版本）：
+    /// 画面识别不准，也没做文字识别（这么小的图认不出字）。算「索引不完整」，「重新扫描」时会重新读图识别
+    static let smallPreview = RecordFlags(rawValue: 1 << 8)
 
     /// 有任何一项识别没跑成：这张图的索引不完整，「重新扫描」时会重试
     static let incompleteAnalysis: RecordFlags = [.classifierUnavailable, .textRecognitionFailed,
-                                                  .faceDetectionFailed, .barcodeDetectionFailed]
+                                                  .faceDetectionFailed, .barcodeDetectionFailed, .smallPreview]
 
     /// 可能没跑成的识别项及其中文名（按界面展示顺序）
     static let analysisItems: [(flag: RecordFlags, name: String)] = [
