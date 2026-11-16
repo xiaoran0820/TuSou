@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct RootView: View {
     @Environment(AppModel.self) private var app
@@ -21,6 +22,10 @@ struct RootView: View {
         }
         .task { await app.start() }
         .modifier(SystemTranslationHost(translator: app.translator))
+        // 建索引时屏幕保持常亮：iPhone 自动锁屏后 App 会被系统暂停，建索引也就停了
+        .onChange(of: app.engine.phase == .indexing, initial: true) { _, indexing in
+            UIApplication.shared.isIdleTimerDisabled = indexing
+        }
     }
 }
 

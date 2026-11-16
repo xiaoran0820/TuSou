@@ -133,7 +133,8 @@ private struct IndexStatusCard: View {
         case .indexing:
             VStack(alignment: .leading, spacing: 6) {
                 HStack {
-                    Label("正在本机建立索引", systemImage: "cpu")
+                    Label(engine.currentPass.map { $0 == .single ? "正在本机建立索引" : $0.title } ?? "正在本机建立索引",
+                          systemImage: "cpu")
                         .font(.subheadline.weight(.semibold))
                     Spacer()
                     Text("\(engine.progressDone) / \(engine.progressTotal)")
@@ -141,7 +142,7 @@ private struct IndexStatusCard: View {
                         .foregroundStyle(.secondary)
                 }
                 ProgressView(value: Double(engine.progressDone), total: Double(max(engine.progressTotal, 1)))
-                Text("识别场景、物体、图中文字和人脸；已完成的部分现在就能搜。")
+                Text(indexingNote(engine.currentPass))
                     .font(.caption).foregroundStyle(.secondary)
             }
             .padding()
@@ -153,6 +154,17 @@ private struct IndexStatusCard: View {
                     .font(.caption).foregroundStyle(.secondary)
                     .padding(.horizontal)
             }
+        }
+    }
+
+    private func indexingNote(_ pass: IndexPass?) -> String {
+        switch pass {
+        case .content:
+            "先识别场景、物体、人脸和画面语义，这一步做完整个相册就能按画面搜；图中文字同时在识别，跟不上的在第 2 步补上。建索引时屏幕保持常亮。"
+        case .text:
+            "画面内容已经都能搜了；文字识别完的图片，图中文字也已经能搜。建索引时屏幕保持常亮。"
+        case .single, nil:
+            "识别场景、物体、图中文字和人脸；已完成的部分现在就能搜。建索引时屏幕保持常亮。"
         }
     }
 }
@@ -299,6 +311,13 @@ private struct ResultsSection: View {
                 Label(outcome.incomplete.map { "\($0.count) 张图片没能完成\($0.name)" }.joined(separator: "，")
                       + "，结果可能不全", systemImage: "exclamationmark.circle")
                     .font(.footnote).foregroundStyle(.orange)
+                    .padding(.horizontal)
+            }
+            // 建索引第二步还没做完：按图中文字找的结果暂时不全
+            if outcome.textPendingCount > 0 {
+                Label("还有 \(outcome.textPendingCount) 张图片的文字没识别完，按图中文字找到的结果可能不全；识别完后结果会自动更新。",
+                      systemImage: "hourglass")
+                    .font(.footnote).foregroundStyle(.secondary)
                     .padding(.horizontal)
             }
             // 分开说明：没建好索引的、读不出来的，和"检查过但不匹配"是两回事
